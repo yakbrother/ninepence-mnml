@@ -1,16 +1,39 @@
 ---
-
+import { getCollection } from 'astro:content';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Meta from '../components/Meta.astro';
+const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const [newest, ...others] = sortedPosts;
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mostly true | virgil eaton</title>
+  </head>
+  <body>
+    <Header />
+    {newest && (
+      <section class="featured-post">
+        <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
+        <div class="featured-title">{newest.data.title}</div>
+        <div class="featured-summary">{newest.data.summary}</div>
+      </section>
+    )}
+    <main class="notebook-list">
+      <h2>All Posts</h2>
+      {others.map(post => (
+        <div class="post">
+          <div class="post-date">{new Date(post.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
+          <div class="post-title">{post.data.title}</div>
+          <div class="post-summary">{post.data.summary}</div>
+        </div>
+      ))}
+    </main>
+    <Footer />
+  </body>
+</html> 
