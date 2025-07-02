@@ -1,27 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
-import '../styles/global.css';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 const stories = await getCollection('stories');
 const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const [newest, ...others] = sortedStories;
 ---
 <BaseLayout>
   <Fragment slot="head">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mostly true | virgil eaton</title>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Arvo:400,700" />
+    <title>Stories | mostly true</title>
   </Fragment>
-  {newest && (
-    <section class="featured-post">
-      <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
-      <div class="featured-title">{newest.data.title}</div>
-      <div class="featured-summary">{newest.data.summary}</div>
-    </section>
-  )}
   <h2>All Stories</h2>
-  {others.map(story => (
+  {sortedStories.map(story => (
     <div class="post">
       <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
       <div class="post-title"><a href={`/stories/${story.id}/`}>{story.data.title}</a></div>

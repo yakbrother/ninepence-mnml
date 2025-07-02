@@ -1,12 +1,26 @@
+---
+const { pathname } = Astro.url;
+const navLinks = [
+  { href: '/', label: 'home' },
+  { href: '/about', label: 'about' },
+  { href: '/archive', label: 'archive' },
+  { href: '/newsletter', label: 'newsletter' },
+  { href: '/guestbook', label: 'guestbook' },
+  { href: '/rss.xml', label: 'rss' },
+];
+---
 <header class="masthead">
-  <img src="/mostlytrue.png" alt="notebook logo" />
+  <a href="/">
+    <img src="/mostlytrue.png" alt="notebook logo" />
+  </a>
   <h1>mostly true</h1>
   <div class="subtitle">stories from life</div>
   <nav class="main-nav">
-    <a href="/about">about</a>
-    <a href="/archive">archive</a>
-    <a href="/guestbook">guestbook</a>
-    <a href="/rss.xml">rss</a>
+    {navLinks.map(link =>
+      pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href)) ?
+        <span class="active">{link.label}</span> :
+        <a href={link.href}>{link.label}</a>
+    )}
   </nav>
-  <img src="/44.png" alt="decorative" style="display: block; margin: 1.5rem auto 0 auto; opacity: 0.7;" />
+  <img src="/14.png" alt="decorative" style="display: block; margin: 1.5rem auto 0 auto; opacity: 0.9;" />
 </header> 

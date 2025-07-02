@@ -1,0 +1,30 @@
+---
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories');
+  return stories.map(story => ({
+    params: { slug: story.id }
+  }));
+}
+
+const { slug } = Astro.params;
+const story = await getEntry('stories', slug) as CollectionEntry<'stories'>;
+if (!story) throw new Error('Story not found');
+---
+<BaseLayout>
+  <Fragment slot="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{story.data.title} | mostly true</title>
+  </Fragment>
+  <article>
+    <h1>{story.data.title}</h1>
+    <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
+    <div class="post-summary">{story.data.description}</div>
+    <div class="post-content">
+      {story.body ? <div set:html={story.body} /> : null}
+    </div>
+  </article>
+</BaseLayout> 

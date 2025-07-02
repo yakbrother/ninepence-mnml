@@ -289,12 +289,12 @@ pre[class*="language-"] {
   color: #444;
   font-size: 1.1rem;
 }
-.notebook-list {
+main.content {
   max-width: 600px;
   margin: 0 auto 3rem auto;
   padding: 0 1rem;
 }
-.notebook-list h2 {
+main.content h2 {
   font-size: 1.3rem;
   margin-bottom: 1rem;
   border-bottom: 1px dotted #bbb;
@@ -341,6 +341,13 @@ footer {
 .main-nav a:hover {
   color: #b89c4c;
   text-decoration: underline dashed;
+}
+.main-nav .active {
+  font-weight: bold;
+  pointer-events: none;
+  text-decoration: none;
+  color: #222;
+  cursor: default;
 }
 
 h1 {
