@@ -4,12 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const stories = await getCollection('stories');
 const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
-<BaseLayout>
-  <Fragment slot="head">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stories | mostly true</title>
-  </Fragment>
+<BaseLayout title="Stories | mostly true">
   <h2>All Stories</h2>
   {sortedStories.map(story => (
     <div class="post">

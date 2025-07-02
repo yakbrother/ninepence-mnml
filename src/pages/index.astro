@@ -1,30 +1,49 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import '../styles/global.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const stories = await getCollection('stories');
 const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const [newest, ...others] = sortedStories;
+let Content = null;
+if (newest) {
+  const rendered = await render(newest);
+  Content = rendered.Content;
+}
 ---
-<BaseLayout>
-  <Fragment slot="head">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mostly true | virgil eaton</title>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Arvo:400,700" />
-  </Fragment>
+<BaseLayout title="mostly true | virgil eaton">
   {newest && (
     <section class="featured-post">
-      <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
-      <div class="featured-title">{newest.data.title}</div>
-      <div class="featured-summary">{newest.data.summary}</div>
+      <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+      <div class="featured-title">
+        {newest.data.title}
+        <a href={`/stories/${newest.id}/`} class="permalink" title="Permalink to this story">
+          <img src="/spiral.svg" alt="permalink" style="width:1em;height:1em;vertical-align:middle;margin-left:0.3em;" />
+        </a>
+      </div>
+      <div class="post-summary">{newest.data.description}</div>
+      <div class="post-content">
+        {Content && <Content />}
+      </div>
+      {Array.isArray(newest.data.tags) && newest.data.tags.length > 0 && (
+        <div class="tag-list">
+          {newest.data.tags.map(tag => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
     </section>
   )}
   <h2>All Stories</h2>
   {others.map(story => (
     <div class="post">
-      <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
-      <div class="post-title"><a href={`/stories/${story.id}/`}>{story.data.title}</a></div>
+      <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+      <div class="post-title">
+        <a href={`/stories/${story.id}/`}>{story.data.title}</a>
+        <a href={`/stories/${story.id}/`} class="permalink" title="Permalink to this story">
+          <img src="/spiral.svg" alt="permalink" style="width:1em;height:1em;vertical-align:middle;margin-left:0.3em;" />
+        </a>
+      </div>
       <div class="post-summary">{story.data.description}</div>
     </div>
   ))}

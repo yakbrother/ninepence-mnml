@@ -1,12 +1,113 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout>
-  <Fragment slot="head">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About | mostly true</title>
-  </Fragment>
-  <h1>About</h1>
-  <p>This site is a collection of stories, notes, and experiments by Virgil Eaton. It is dedicated to the old web, the weird web, and the joy of sharing ideas.</p>
+<BaseLayout title="about | mostly true">
+    <h1>about</h1>
+    <article class="stack">
+      <p>
+        My name is Virgil Eaton, but all my friends call me Virgil. It's nice to
+        have a real name that I chose, one that I always dreamt I was called. I
+        stick with Virgil for work and legal reasons, but Virgil is way more
+        fun.
+      </p>
+
+      <p>
+        A few things to know about me: I was raised extremely right-wing, and
+        while I still have some of that libertarian knee-jerk attitude, I've
+        moved far to the left over the time and will happily stand up for the
+        rights of all people (<em>yes, even you, Fred, damn you</em>). Most of
+        my life I spent with vaguely anarchist tendencies, but I found a home in
+        Switzerland, and I'm enjoying the socialism that makes it easy to live a
+        free and happy life in the middle class, where my taxes help the country
+        instead of being spent on endless war.
+      </p>
+
+      <blockquote>
+        "Your assumptions are your windows on the world. Scrub them off every
+        once in a while, or the light won't come in."― Isaac Asimov
+      </blockquote>
+
+      <p>
+        I have been a writer and a programmer for most of my life, but I've had
+        many jobs, from volunteer fireman to disaster relief, barista to chef,
+        street musician to animal caretaker, day laborer to director to teacher
+        - all around the world. During this time I've met many people and
+        gathered many stories to tell.
+      </p>
+
+      <p>
+        As for the rest, you'll discover that over time. I can't ever say no to
+        an adventure, but recently events have been keeping me in a wheelchair,
+        so I'm going to sit and write about people and happenstances. Please
+        enjoy!
+      </p>
+
+      <figure>
+        <img
+          src="/assets/baja.jpg"
+          alt="The auther, Virgil, in 2015 with a much larger beard, living outside on the Baja Peninsula"
+        />
+        <figcaption>The author living on the beach in Baja, c. 2015</figcaption>
+      </figure>
+
+      <blockquote>
+        "The love of wilderness is more than a hunger for what is always beyong
+        reach; it is also an expression of loyalty to the earth, the earth which
+        bore us and sustains us, the only paradise we shall ever know, the only
+        paradise we ever need, if only we had the eyes to see." - Edward Abbey
+      </blockquote>
+
+      <h3>A note on AI:</h3>
+      <p>
+        I never use AI to write, but I have found one prompt that I find very
+        engaging and will continue to use.
+      </p>
+
+      <blockquote>
+        <em>
+          Acting as an editor, are you engaged by this story? Are there any
+          confusing parts? If so, please explain.</em
+        >
+      </blockquote>
+
+      <p>
+        The response is great, like notes from an editor. I find this to be
+        ethical, because I use the notes (or ignore them) to rewrite entirely in
+        my own words. I never use it to change or generate content.
+      </p>
+
+      <h3>Colophon:</h3>
+      <p>
+        I designed this site myself to be fluid and easy on the eyes, using <a
+          href="https://astro.build">Astro</a
+        > as the engine and <a href="https://vercel.com/">Vercel</a> for hosting.
+        The main fonts are Vorkall for readability and Rustic Printed for the header.
+        I have an <a href="/rss.xml">RSS feed</a> if you'd rather view it in your
+        own preferred program.
+      </p>
+
+      <p>
+        If you or anyone you know need design or programming help, I charge on a
+        sliding scale - anything from cups of coffee and a <em
+          >pain au chocolat</em
+        > for bit of help, to hard Euros for corporate work. You can find my freelancer
+        site at <a href="https://timeaton.dev">timeaton.dev</a>.
+      </p>
+
+      <p>
+        I'm more than happy to answer any questions you might have about
+        building your own Astro site!
+      </p>
+
+      <figure>
+        <img
+          src="/assets/swiss.jpg"
+          alt="The author and his amazing wife sipping a bit of liquid warmth somewhere near Jungfrau, Switzerland, c. 2019"
+        />
+        <figcaption>
+          The author and his amazing wife sipping a bit of liquid warmth
+          somewhere near Jungfrau, Switzerland, c. 2019
+        </figcaption>
+      </figure>
+    </article>
 </BaseLayout> 

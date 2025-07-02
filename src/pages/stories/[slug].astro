@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
@@ -12,19 +12,15 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const story = await getEntry('stories', slug) as CollectionEntry<'stories'>;
 if (!story) throw new Error('Story not found');
+const { Content } = await render(story);
 ---
-<BaseLayout>
-  <Fragment slot="head">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{story.data.title} | mostly true</title>
-  </Fragment>
+<BaseLayout title={`${story.data.title} | mostly true`}>
   <article>
     <h1>{story.data.title}</h1>
-    <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric' })}</div>
+    <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })}</div>
     <div class="post-summary">{story.data.description}</div>
     <div class="post-content">
-      {story.body ? <div set:html={story.body} /> : null}
+      <Content />
     </div>
   </article>
 </BaseLayout> 
