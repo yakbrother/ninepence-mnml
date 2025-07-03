@@ -1,3 +1,25 @@
+@font-face {
+  font-family: "Arvo";
+  src:
+    url("/fonts/arvo-regular.woff2") format("woff2"),
+    url("/fonts/arvo-regular.woff") format("woff"),
+    url("/fonts/arvo-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arvo";
+  src:
+    url("/fonts/arvo-bold.woff2") format("woff2"),
+    url("/fonts/arvo-bold.woff") format("woff"),
+    url("/fonts/arvo-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-sans: Helvetica Neue, Helvetica, Arial, sans-serif;
   --font-serif: Arvo, Georgia, serif;
@@ -33,7 +55,6 @@
 :after,
 :before {
   box-sizing: border-box;
-  background-color: inherit;
   font-family: inherit;
   color: inherit;
   overflow-wrap: break-word;
@@ -417,7 +438,8 @@ html.scrolled #back-to-top {
 .masthead .subtitle {
   font-size: 1.2rem;
   color: #666;
-  margin: 0.5rem 0 0 0;
+  margin: 0;
+  padding: 0;
 }
 .masthead .follow {
   margin-top: 1rem;

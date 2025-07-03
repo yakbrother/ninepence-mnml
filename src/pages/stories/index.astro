@@ -5,7 +5,8 @@ import StoryList from '../../components/StoryList.astro';
 const stories = await getCollection('stories');
 const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
-<BaseLayout title="Stories | mostly true">
-  <h2>All Stories</h2>
+<BaseLayout title="stories | mostly true">
+  <h1>all stories</h1>
+  <hr/>
   <StoryList stories={sortedStories} />
 </BaseLayout> 

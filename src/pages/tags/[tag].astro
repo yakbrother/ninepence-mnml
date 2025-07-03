@@ -21,6 +21,8 @@ const stories = (await getCollection('stories')).filter(story =>
 ---
 
 <BaseLayout title={`#${tag.toLowerCase()} | mostly true`}>
-  <h1>Stories tagged: <span class="tag">{tag.toLowerCase()}</span></h1>
+  <h1>stories tagged: <span class="tag">{tag.toLowerCase()}</span></h1>
+  <hr/>
+  <br/>
   <StoryList stories={stories} />
 </BaseLayout> 

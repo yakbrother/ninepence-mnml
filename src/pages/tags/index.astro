@@ -12,6 +12,7 @@ const tags = Array.from(tagSet).sort();
 ---
 <BaseLayout title="tags | mostly true">
   <h1>All Tags</h1>
+  <hr/>
   <div class="tag-list" style="flex-wrap: wrap; justify-content: center;">
     {tags.map((tag: string) => (
       <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>

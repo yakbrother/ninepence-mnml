@@ -1,0 +1,33 @@
+---
+type Props = {
+  href: string;
+};
+
+const { href } = Astro.props;
+---
+
+<a
+  href={href}
+  class="back-to-previous-button group"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    class="back-to-previous-icon"
+  >
+    <line
+      x1="5"
+      y1="12"
+      x2="19"
+      y2="12"
+      class="back-to-previous-line"
+    ></line>
+    <polyline
+      points="12 5 5 12 12 19"
+      class="back-to-previous-arrow"
+    ></polyline>
+  </svg>
+  <div class="back-to-previous-text">
+    <slot />
+  </div>
+</a>

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import '../styles/global.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import StoryList from '../components/StoryList.astro';
 const stories = await getCollection('stories');
 const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const [newest, ...others] = sortedStories;
@@ -26,9 +27,8 @@ if (newest) {
             >sure</i
           >
           are true. In a way, any writing is only mostly true. Originally this started
-          as a place to tell stories, but I'm also using it as a digital garden for
-          my thoughts and ideas. Now... let me tell you about the fish I caught last
-          week...
+          as a place to only tell stories, but I'm also using it as a digital garden for
+          my thoughts and ideas. Now... Read on!
         </section>
       </div>
   {newest && (
@@ -37,11 +37,11 @@ if (newest) {
       <div class="featured-title">
         {newest.data.title}
         <a href={`/stories/${newest.id}/`} class="permalink" title="Permalink to this story">
-          <img src="/spiral.svg" alt="permalink" style="width:1em;height:1em;vertical-align:middle;margin-left:0.3em;" />
+          <img src="/spiral.svg" alt="permalink" style="width:0.5em;height:0.5em;vertical-align:middle;margin-left:0.3em;" />
         </a>
       </div>
-      <div class="post-summary">{newest.data.description}</div>
-      <div class="post-content">
+      
+      <div class="stack">
         {Content && <Content />}
       </div>
       {Array.isArray(newest.data.tags) && newest.data.tags.length > 0 && (
@@ -54,17 +54,6 @@ if (newest) {
     </section>
   )}
   <h2>All Stories</h2>
-  {others.map(story => (
-    <div class="post">
-      <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-      <div class="post-title">
-        <a href={`/stories/${story.id}/`}>{story.data.title}</a>
-        <a href={`/stories/${story.id}/`} class="permalink" title="Permalink to this story">
-          <img src="/spiral.svg" alt="permalink" style="width:0.5em;height:0.5em;vertical-align:middle;margin-left:0.3em;" />
-        </a>
-      </div>
-      <div class="post-summary">{story.data.description}</div>
-    </div>
-  ))}
+  <StoryList stories={others} />
   </article>
 </BaseLayout> 
