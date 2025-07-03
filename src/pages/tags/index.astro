@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const stories = await getCollection('stories');
+const tagSet = new Set<string>();
+stories.forEach(story => {
+  if (Array.isArray(story.data.tags)) {
+    (story.data.tags as string[]).forEach((tag: string) => tagSet.add(tag));
+  }
+});
+const tags = Array.from(tagSet).sort();
+---
+<BaseLayout title="tags | mostly true">
+  <h1>All Tags</h1>
+  <div class="tag-list" style="flex-wrap: wrap; justify-content: center;">
+    {tags.map((tag: string) => (
+      <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>
+    ))}
+  </div>
+</BaseLayout> 

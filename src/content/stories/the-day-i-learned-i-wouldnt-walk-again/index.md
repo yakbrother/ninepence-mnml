@@ -2,7 +2,7 @@
 title: "The Time I Realised I Wouldn’t Walk Again"
 description: "After nearly three years at the hospital, things are drawing to a close. But what next?"
 date: "2025-06-11"
-tags: ["Switzerland", "France", "wheelchair", "healthcare"]
+tags: ["switzerland", "france", "wheelchair", "healthcare"]
 featured: false
 ---
 

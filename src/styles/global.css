@@ -1,9 +1,9 @@
 :root {
-  --font-plain: Helvetica Neue, Helvetica, Arial, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-special: Barlow Condensed, Helvetica, sans-serif;
+  --font-sans: Helvetica Neue, Helvetica, Arial, sans-serif;
+  --font-serif: Arvo, Georgia, serif;
   --font-mono: Menlo, Courier, Courier New, Andale Mono, monospace;
   --color-dark: #442625;
+  --color-text: #442625;
   --color-darkish: #b5ada4;
   --color-special: #8f779d;
   --color-special-light: #996eb5;
@@ -26,6 +26,7 @@
   --line-height-small: calc(0.8 * var(--ratio));
   --border-thin: var(--s-5);
   --border-thick: var(--s-2);
+  font-family: var(--font-serif);
 }
 
 *,
@@ -79,6 +80,143 @@ nav {
 [tabindex="-1"]:focus,
 shrink-grow:focus {
   outline: none;
+}
+
+article {
+  line-height: var(--line-height);
+}
+
+article > * + * {
+  margin-block-start: var(--s2, 1.5rem);
+}
+
+/* Article content styling */
+article p,
+article ul,
+article ol,
+article li,
+article blockquote,
+article pre {
+  font-size: var(--s0);
+  max-width: 60ch;
+  line-height: 1.7;
+}
+
+.stack,
+article {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.stack > * {
+  margin-block: 0;
+}
+
+.stack > * + * {
+  margin-block-start: var(--s2, 1.5rem);
+}
+
+.stack-exception,
+.stack-exception + * {
+  --space: 3rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: var(--line-height-small);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.h1,
+h1 {
+  font-size: var(--s3);
+}
+
+h1 > a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.h2,
+h2 {
+  font-size: var(--s3);
+}
+
+.h3,
+h3 {
+  font-size: var(--s2);
+}
+
+.h4,
+h4 {
+  font-size: var(--s1);
+}
+
+p.intro,
+section.intro {
+  font-size: var(--s0);
+  font-weight: 400;
+  line-height: var(--line-height);
+  font-style: italic;
+  text-align: left;
+  padding: var(--s2);
+  width: 100%;
+  max-width: var(--max-width);
+  border-radius: var(--s1);
+  background-color: var(--color-mid);
+  margin: auto;
+}
+
+p.intro > a,
+section.intro > a {
+  text-decoration-style: solid;
+  text-decoration-color: var(--accent);
+  color: var(--accent);
+}
+p.intro > a:hover,
+section.intro > a:hover {
+  text-decoration: dashed;
+  color: var(--accent);
+}
+
+article {
+  max-width: 100%;
+}
+
+article img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Dark mode handled through CSS variables */
+
+/* Link styles */
+article a {
+  color: var(--color-special);
+  text-decoration: none;
+  transition:
+    color 0.3s ease-in-out,
+    text-decoration-color 0.3s ease-in-out;
+}
+
+article a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-special-light);
 }
 
 .cta,
@@ -135,12 +273,12 @@ h4 {
 
 .h1,
 h1 {
-  font-size: var(--s4);
+  font-size: var(--s3);
 }
 
 .h2,
 h2 {
-  font-size: var(--s3);
+  font-size: var(--s2);
 }
 
 .h3,
@@ -239,6 +377,27 @@ pre[class*="language-"] {
   hyphens: none;
 }
 
+.animate {
+  transform: translateY(-0.75rem);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.animate.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+html #back-to-top {
+  pointer-events: none;
+  opacity: 0;
+}
+
+html.scrolled #back-to-top {
+  pointer-events: auto;
+  opacity: 1;
+}
+
 .masthead {
   /* border-bottom: 2px solid #222; */
   padding: 2rem 0 1rem 0;
@@ -290,7 +449,7 @@ pre[class*="language-"] {
   font-size: 1.1rem;
 }
 main.content {
-  max-width: 600px;
+  max-width: 70ch;
   margin: 0 auto 3rem auto;
   padding: 0 1rem;
 }
@@ -319,9 +478,10 @@ main.content h2 {
   color: #444;
   font-size: 1rem;
 }
+
 footer {
   text-align: center;
-  color: #aaa;
+  color: var(--color-darkish);
   font-size: 0.95rem;
   margin: 3rem auto 1rem auto;
   max-width: 600px;
@@ -352,78 +512,10 @@ footer {
   margin: 0 1.2em;
   padding: 0 0.2em;
 }
-
-h1 {
-  font-family: Arvo;
-  font-size: 18px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 700;
-  line-height: 27px;
-}
-h3 {
-  font-family: Arvo;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 700;
-  line-height: 15.4px;
-}
-p {
-  font-family: Arvo;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 20px;
-}
-blockquote {
-  font-family: Arvo;
-  font-size: 21px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 30px;
-}
-pre {
-  font-family: Arvo;
-  font-size: 13px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 18.5714px;
-}
-
 .post-content {
   margin-top: 2rem;
   line-height: 1.7;
   font-size: 1.15rem;
-}
-
-.post-content h1,
-.post-content h2,
-.post-content h3,
-.post-content h4,
-.post-content h5,
-.post-content h6 {
-  font-family: Arvo, serif;
-  font-weight: 700;
-  margin: 2rem 0 1rem 0;
-  line-height: 1.2;
-}
-
-.post-content p {
-  margin: 1rem 0;
-}
-
-.post-content ul,
-.post-content ol {
-  margin: 1rem 0 1rem 2rem;
-  padding: 0;
-}
-
-.post-content li {
-  margin: 0.5rem 0;
 }
 
 .post-content blockquote {

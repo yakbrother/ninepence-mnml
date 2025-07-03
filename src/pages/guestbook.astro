@@ -1,12 +1,99 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout>
-  <Fragment slot="head">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>guestbook | mostly true</title>
-  </Fragment>
-  <h1>guest book</h1>
-  <p>Subscribe to the mostly true newsletter for occasional updates and new stories. (Newsletter signup coming soon!)</p>
+<BaseLayout title="guestbook">
+  <article class="stack">
+      <h1>Sign My Guestbook</h1>
+      <hr/>
+      <p>
+        Alright, pretend it's the early 2000s again. Did you ever have a
+        guestbook on your site? It's a fun old way to meet new people and find
+        other blogs. Leave a message and I'll add it to the guestbook - and I'll
+        sign yours if you have one!
+      </p>
+
+      <form
+        name="guestbook"
+        method="POST"
+        data-netlify="true"
+        action="/thank-you"
+      >
+        <input type="hidden" name="form-name" value="guestbook" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email (Optional):</label>
+            <input type="email" id="email" name="email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="website">Website (Optional):</label>
+          <input type="url" id="website" name="website" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your Message:</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </article>
+
+  <style>
+    .guestbook-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    form {
+      margin-top: var(--s2);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; /* Matches .form-group margin-bottom */
+      margin-bottom: 1.5rem; /* Spacing before the next full-width field */
+    }
+
+    .form-row .form-group {
+      margin-bottom: 0; /* Remove default margin as gap handles spacing */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      background-color: white;
+      color: var(--color-text);
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: var(--color-dark);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
 </BaseLayout> 

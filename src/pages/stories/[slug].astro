@@ -1,26 +1,45 @@
 ---
 import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import StoryList from '../../components/StoryList.astro';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories');
-  return stories.map(story => ({
-    params: { slug: story.id }
-  }));
+  const tagSet = new Set<string>();
+  stories.forEach(story => {
+    if (Array.isArray(story.data.tags)) {
+      (story.data.tags as string[]).forEach((tag: string) => tagSet.add(tag));
+    }
+  });
+  return stories.map(story => ({ params: { slug: story.id } }));
 }
 
 const { slug } = Astro.params;
 const story = await getEntry('stories', slug) as CollectionEntry<'stories'>;
 if (!story) throw new Error('Story not found');
 const { Content } = await render(story);
+const allStories = await getCollection('stories');
+const otherStories = allStories.filter(s => s.id !== slug);
 ---
 <BaseLayout title={`${story.data.title} | mostly true`}>
   <article>
     <h1>{story.data.title}</h1>
-    <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })}</div>
+    <hr/>
+    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' })}</div>
     <div class="post-summary">{story.data.description}</div>
     <div class="post-content">
       <Content />
     </div>
+    {Array.isArray(story.data.tags) && story.data.tags.length > 0 && (
+      <div class="tag-list" style="margin-top:2em;">
+        {story.data.tags.map((tag: string) => (
+          <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>
+        ))}
+      </div>
+    )}
+  
+  <hr style="margin: 3em 0;" />
+  <h2>All Stories</h2>
+  <StoryList stories={otherStories} />
   </article>
 </BaseLayout> 

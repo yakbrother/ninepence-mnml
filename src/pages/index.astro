@@ -12,9 +12,28 @@ if (newest) {
 }
 ---
 <BaseLayout title="mostly true | virgil eaton">
+  <article class="stack">
+
+    <div id="home-container">
+        <section class="home-intro">
+          <img
+            src="/assets/virgil.jpg"
+            alt="The auther, Virgil, with a small beard and casual suit"
+            class="intro-image"
+          />
+          Bienvenue, mes amis! I've always been fascinated by the idea of the Unreliable
+          Narrator, and how memories and time change the stories you're <i
+            >sure</i
+          >
+          are true. In a way, any writing is only mostly true. Originally this started
+          as a place to tell stories, but I'm also using it as a digital garden for
+          my thoughts and ideas. Now... let me tell you about the fish I caught last
+          week...
+        </section>
+      </div>
   {newest && (
     <section class="featured-post">
-      <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+      <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
       <div class="featured-title">
         {newest.data.title}
         <a href={`/stories/${newest.id}/`} class="permalink" title="Permalink to this story">
@@ -37,14 +56,15 @@ if (newest) {
   <h2>All Stories</h2>
   {others.map(story => (
     <div class="post">
-      <div class="post-date">{new Date(story.data.date).toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+      <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
       <div class="post-title">
         <a href={`/stories/${story.id}/`}>{story.data.title}</a>
         <a href={`/stories/${story.id}/`} class="permalink" title="Permalink to this story">
-          <img src="/spiral.svg" alt="permalink" style="width:1em;height:1em;vertical-align:middle;margin-left:0.3em;" />
+          <img src="/spiral.svg" alt="permalink" style="width:0.5em;height:0.5em;vertical-align:middle;margin-left:0.3em;" />
         </a>
       </div>
       <div class="post-summary">{story.data.description}</div>
     </div>
   ))}
+  </article>
 </BaseLayout> 

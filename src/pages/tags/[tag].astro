@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StoryList from '../../components/StoryList.astro';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories');
+  const tagSet = new Set<string>();
+  stories.forEach(story => {
+    if (Array.isArray(story.data.tags)) {
+      (story.data.tags as string[]).forEach((tag: string) => tagSet.add(tag));
+    }
+  });
+  return Array.from(tagSet).map(tag => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const stories = (await getCollection('stories')).filter(story =>
+  Array.isArray(story.data.tags) && story.data.tags.includes(tag)
+);
+---
+
+<BaseLayout title={`#${tag.toLowerCase()} | mostly true`}>
+  <h1>Stories tagged: <span class="tag">{tag.toLowerCase()}</span></h1>
+  <StoryList stories={stories} />
+</BaseLayout> 
