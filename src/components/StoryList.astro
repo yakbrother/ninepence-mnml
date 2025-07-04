@@ -6,11 +6,11 @@ const { stories } = Astro.props;
 ---
 {stories.map(story => (
   <div class="post">
-    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</div>
     <div class="post-title">
       <a href={`/stories/${story.id}/`}>{story.data.title}</a>
-      <a href={`/stories/${story.id}/`} class="permalink" title="Permalink to this story">
-        <img src="/spiral.svg" alt="permalink" style="width:0.4em;height:0.4em;vertical-align:top;margin-left:0.3em;" />
+      <a href={`/stories/${story.id}/`} class="permalink" title="permalink" alt="permalink">
+        <img src="/spiral.svg" alt="permalink" style="width:0.6em;height:0.6em;vertical-align:center;margin-left:0.3em;" />
       </a>
     </div>
     <div class="post-summary">{story.data.description}</div>

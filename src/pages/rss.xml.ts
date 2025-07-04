@@ -1,6 +1,5 @@
-import rss from "@astrojs/rss";
-import { SITE } from "@consts";
 import { getCollection } from "astro:content";
+import { SITE } from "../consts";
 import type { APIContext } from "astro";
 
 interface StoryData {
@@ -25,15 +24,31 @@ export async function GET(context: APIContext) {
     (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
   );
 
-  return rss({
-    title: SITE.TITLE,
-    description: SITE.DESCRIPTION,
-    site: context.site || SITE.WEBSITE_URL,
-    items: items.map((item) => ({
-      title: item.data.title,
-      description: item.data.description,
-      pubDate: item.data.date,
-      link: `/${item.collection}/${item.id}/`,
-    })),
-  });
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>${SITE.TITLE}</title>
+    <description>${SITE.DESCRIPTION}</description>
+    <link>${SITE.WEBSITE_URL}</link>
+    <language>en</language>
+    ${items
+      .map(
+        (item) => `
+    <item>
+      <title>${item.data.title}</title>
+      <description>${item.data.description}</description>
+      <link>${SITE.WEBSITE_URL}/${item.collection}/${item.id}/</link>
+      <pubDate>${item.data.date.toUTCString()}</pubDate>
+    </item>`,
+      )
+      .join("")}
+  </channel>
+</rss>`,
+    {
+      headers: {
+        "Content-Type": "application/xml",
+      },
+    },
+  );
 }

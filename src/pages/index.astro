@@ -15,45 +15,24 @@ if (newest) {
 <BaseLayout title="mostly true | virgil eaton">
   <article class="stack">
 
-    <div id="home-container">
-        <section class="home-intro">
-          <img
-            src="/assets/virgil.jpg"
-            alt="The auther, Virgil, with a small beard and casual suit"
-            class="intro-image"
-          />
-          Bienvenue, mes amis! I've always been fascinated by the idea of the Unreliable
-          Narrator, and how memories and time change the stories you're <i
-            >sure</i
-          >
-          are true. In a way, any writing is only mostly true. Originally this started
-          as a place to only tell stories, but I'm also using it as a digital garden for
-          my thoughts and ideas. Now... Read on!
-        </section>
-      </div>
   {newest && (
-    <section class="featured-post">
-      <div class="featured-date">{new Date(newest.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-      <div class="featured-title">
-        {newest.data.title}
-        <a href={`/stories/${newest.id}/`} class="permalink" title="Permalink to this story">
-          <img src="/spiral.svg" alt="permalink" style="width:0.5em;height:0.5em;vertical-align:middle;margin-left:0.3em;" />
-        </a>
-      </div>
-      
+    <>
+      <h1>{newest.data.title.toLowerCase()}</h1>
+      <hr/>
+      <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton</div>
       <div class="stack">
         {Content && <Content />}
       </div>
       {Array.isArray(newest.data.tags) && newest.data.tags.length > 0 && (
-        <div class="tag-list">
+        <div class="tag-list" style="margin-top:2em;">
           {newest.data.tags.map(tag => (
-            <span class="tag">{tag}</span>
+            <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>
           ))}
         </div>
       )}
-    </section>
+    </>
   )}
-  <h2>All Stories</h2>
+  <h1>All Stories</h1>
   <StoryList stories={others} />
   </article>
 </BaseLayout> 

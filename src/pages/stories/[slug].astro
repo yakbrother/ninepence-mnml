@@ -25,7 +25,7 @@ const otherStories = allStories.filter(s => s.id !== slug);
   <article class="stack">
     <h1>{story.data.title.toLowerCase()}</h1>
     <hr/>
-    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' })}</div>
+    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton</div>
     <div class="stack">
       <Content />
     </div>
