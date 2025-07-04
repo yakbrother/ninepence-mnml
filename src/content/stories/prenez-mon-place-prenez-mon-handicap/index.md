@@ -11,6 +11,8 @@ draft: false
 
 Julie and were about to board the train for Lausanne - the first time on a train in my new electric wheel chair. Julie motioned to the woman next to us, asking for a path through for the wheelchair, and the woman simply pushed in front of us.
 
+(make it more clear how the lady acted).
+
 She then stopped almost immediately at the door, despite the train entrance being so large. I was negotiating the ramp, and had to brake hard before I hit her. She avoided eye contact, and I was left with steaming frustration.
 
 It seems strange, based on what the world knows about the Swiss, how rude they can be when it comes to the disabled. Let me take that back a bit. I have many good and generous Swiss friends, but a continuous daily experience with nameless people on public transportation makes me distrust the larger culture.
@@ -19,7 +21,7 @@ I’ve been pushed. People won’t leave the handicapped area. People will slide
 
 Now, I’m generally a nice person. But I still have a spicy streak that’s been toughened by all my time in South Philly. My immediate response would usually be a finger or two and a colorful story of their recent ancestors.
 
-But I’m trying to be nice. This is Switzerland, not Passyunk Ave. So I asked Julie: how do you say “Move it, \*sshol\*!” In French?
+But I’m trying to be nice. This is Switzerland, not Passyunk Ave. So I asked Julie: how do you say “Move it, \*ssh\*le!” In French?
 
 She said “Maybe: bouchez plus vite, Madame!”
 
@@ -42,6 +44,8 @@ _I can’t say just be like “c’est quoi ça?”_
 _OK. I can say that quickly… I’ll try next time._
 
 Now I kept saying it under my breath. J’ai la priorité. I still wanted to add something sarcastic, but I suppose, in this culture, being politely reprimanded in public for bad behavior has a bigger impact.
+
+(a bigger impact how?)
 
 Here’s the thing. When I arrived in Lausanne, a very kind man with a heavy Vaudois accent generously held the elevator door for me and an old couple, politely wishing us a good day as he walked away. It was touching after being cold shouldered by so many. We could tell he had some disabilities, and we talked about how the kindest people are often ones who have had to deal with those problems in their life.
 
