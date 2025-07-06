@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import StoryList from '../../components/StoryList.astro';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories');
@@ -18,8 +17,6 @@ const { slug } = Astro.params;
 const story = await getEntry('stories', slug) as CollectionEntry<'stories'>;
 if (!story) throw new Error('Story not found');
 const { Content } = await render(story);
-const allStories = await getCollection('stories');
-const otherStories = allStories.filter(s => s.id !== slug);
 ---
 <BaseLayout title={`${story.data.title} | mostly true`}>
   <article class="stack">
@@ -36,9 +33,5 @@ const otherStories = allStories.filter(s => s.id !== slug);
         ))}
       </div>
     )}
-  
-  <hr style="margin: 3em 0;" />
-  <h2>All Stories</h2>
-  <StoryList stories={otherStories} />
   </article>
 </BaseLayout> 

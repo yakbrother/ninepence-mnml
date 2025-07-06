@@ -1,15 +1,25 @@
 ---
+import { getCollection } from 'astro:content';
+
 export interface Props {
-  stories: any[];
+  stories?: any[];
 }
+
 const { stories } = Astro.props;
+
+// If no stories are passed, fetch all stories and sort them by date
+let displayStories = stories || [];
+if (!stories || stories.length === 0) {
+  const allStories = await getCollection('stories');
+  displayStories = allStories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+}
 ---
-{stories.map(story => (
+{displayStories.map(story => (
   <div class="post">
     <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</div>
     <div class="post-title">
       <a href={`/stories/${story.id}/`}>{story.data.title}</a>
-      <a href={`/stories/${story.id}/`} class="permalink" title="permalink" alt="permalink">
+      <a href={`/stories/${story.id}/`} class="permalink" title="permalink">
         <img src="/spiral.svg" alt="permalink" style="width:0.6em;height:0.6em;vertical-align:center;margin-left:0.3em;" />
       </a>
     </div>

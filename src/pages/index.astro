@@ -2,7 +2,6 @@
 import { getCollection, render } from 'astro:content';
 import '../styles/global.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import StoryList from '../components/StoryList.astro';
 const stories = await getCollection('stories');
 const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const [newest, ...others] = sortedStories;
@@ -12,7 +11,7 @@ if (newest) {
   Content = rendered.Content;
 }
 ---
-<BaseLayout title="mostly true | virgil eaton">
+<BaseLayout title="virgil eaton">
   <article class="stack">
 
   {newest && (
@@ -32,7 +31,5 @@ if (newest) {
       )}
     </>
   )}
-  <h1>All Stories</h1>
-  <StoryList stories={others} />
   </article>
 </BaseLayout> 

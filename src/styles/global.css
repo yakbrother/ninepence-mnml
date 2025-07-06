@@ -24,6 +24,8 @@
   --font-sans: Helvetica Neue, Helvetica, Arial, sans-serif;
   --font-serif: Arvo, Georgia, serif;
   --font-mono: Menlo, Courier, Courier New, Andale Mono, monospace;
+  --color-link: #0077cc;
+  --color-link-hover: #b89c4c;
   --color-dark: #442625;
   --color-text: #442625;
   --color-darkish: #b5ada4;
@@ -197,14 +199,14 @@ section.intro {
 
 p.intro > a,
 section.intro > a {
-  text-decoration-style: solid;
-  text-decoration-color: var(--accent);
-  color: var(--accent);
+  text-decoration-style: underline dashed;
+  text-decoration-color: var(--color-link);
+  color: var(--color-link);
 }
 p.intro > a:hover,
 section.intro > a:hover {
-  text-decoration: dashed;
-  color: var(--accent);
+  text-decoration: underline dashed;
+  color: var(--color-link-hover);
 }
 
 article {
@@ -226,21 +228,19 @@ article h6 {
   color: var(--color-text);
 }
 
-/* Dark mode handled through CSS variables */
-
 /* Link styles */
 article a {
-  color: var(--color-special);
-  text-decoration: none;
+  color: var(--color-link);
+  text-decoration: underline dashed;
   transition:
     color 0.3s ease-in-out,
     text-decoration-color 0.3s ease-in-out;
 }
 
 article a:hover {
-  text-decoration: underline;
+  text-decoration: underline dashed;
   text-underline-offset: 3px;
-  text-decoration-color: var(--color-special-light);
+  text-decoration-color: var(--color-link-hover);
 }
 
 .cta,
@@ -250,7 +250,6 @@ button {
   display: inline-block;
   cursor: pointer;
   line-height: 1.1;
-  font-family: var(--font-special);
   color: var(--color-light);
   background-color: var(--color-dark);
   padding: 0.5em 1.5em 0.7em;
@@ -423,7 +422,6 @@ html.scrolled #back-to-top {
 }
 
 .masthead {
-  /* border-bottom: 2px solid #222; */
   padding: 2rem 0 1rem 0;
   text-align: center;
   margin-bottom: 2rem;
@@ -526,14 +524,14 @@ footer {
 .main-nav a {
   display: inline-block;
   margin: 0 0.7em;
-  color: #0077cc;
+  color: var(--color-link);
   text-decoration: none;
   font-size: 1.05rem;
   transition: color 0.2s;
   font-weight: bold;
 }
 .main-nav a:hover {
-  color: #b89c4c;
+  color: var(--color-link-hover);
   text-decoration: underline dashed;
 }
 .main-nav .active {

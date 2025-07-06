@@ -1,11 +1,17 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import WhatNext from '../components/WhatNext.astro';
+import BackToTop from '../components/BackToTop.astro';
+import StoryList from '../components/StoryList.astro';
 import '../styles/global.css';
 export interface Props {
   title?: string;
 }
 const { title = 'virgil eaton' } = Astro.props;
+
+// Check if we're on the stories index page to avoid showing the story list there
+const isStoriesIndexPage = Astro.url.pathname === '/stories/';
 ---
 <html lang="en">
   <head>
@@ -19,6 +25,14 @@ const { title = 'virgil eaton' } = Astro.props;
     <Header />
     <main class="content">
       <slot />
+      <WhatNext />
+      {!isStoriesIndexPage && (
+        <>
+          <h2>All Stories</h2>
+          <StoryList />
+        </>
+      )}
+      <BackToTop />
     </main>
     <Footer />
   </body>
