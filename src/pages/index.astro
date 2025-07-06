@@ -18,12 +18,11 @@ if (newest) {
     <>
       <h1>
         {newest.data.title.toLowerCase()}
-        <a href={`/stories/${newest.id}/`} class="permalink" title="permalink">
-          <img src="/spiral.svg" alt="permalink" style="width:0.6em;height:0.6em;vertical-align:center;margin-left:0.3em;" />
-        </a>
       </h1>
       <hr/>
-      <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton</div>
+      <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.id}/`} class="permalink" title="permalink">
+          permalink
+        </a></div>
       <div class="stack">
         {Content && <Content />}
       </div>

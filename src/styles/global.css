@@ -461,35 +461,27 @@ html.scrolled #back-to-top {
   opacity: 1;
 }
 
-/* Back to top button styles */
-.back-to-top-button {
+/* Back to top button basic styles */
+#back-to-top {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
   background: var(--color-dark);
   color: var(--color-light);
   border: none;
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
+  border-radius: 2rem;
+  padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1000;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  gap: 0.5rem;
 }
 
-.back-to-top-button:hover {
+#back-to-top:hover {
   background: var(--color-special);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.back-to-top-button:focus {
-  outline: 2px solid var(--color-special);
-  outline-offset: 2px;
 }
 
 .back-to-top-icon {
@@ -500,24 +492,30 @@ html.scrolled #back-to-top {
   stroke-width: 2;
 }
 
-.back-to-top-line {
-  stroke: currentColor;
-}
-
-.back-to-top-arrow {
-  stroke: currentColor;
-}
-
 .back-to-top-text {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  border: 0;
+  font-size: 0.8rem;
+}
+
+.permalink {
+  color: var(--color-link);
+  text-decoration: underline dashed;
+  transition: color 0.2s ease;
+}
+
+.permalink:hover {
+  color: var(--color-link-hover);
+}
+
+.permalink img {
+  color: #0077cc;
+  transition: color 0.2s ease;
+  width: 0.6em !important;
+  height: 0.6em !important;
+}
+
+.permalink:hover img {
+  color: #b89c4c;
 }
 
 .masthead {

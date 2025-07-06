@@ -58,6 +58,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://mostlytr
     const backToTop = document.getElementById("back-to-top");
     backToTop?.addEventListener("click", (event) => scrollToTop(event));
 
+    const backToPrev = document.getElementById("back-to-prev");
+    backToPrev?.addEventListener("click", () => window.history.back());
+
     document.addEventListener("scroll", onScroll);
   }
 
@@ -86,4 +89,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://mostlytr
       behavior: "smooth",
     });
   }
+
+  document.addEventListener("DOMContentLoaded", () => init());
+  document.addEventListener("astro:after-swap", () => init());
 </script>
