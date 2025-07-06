@@ -3,9 +3,10 @@ import { getCollection } from 'astro:content';
 
 export interface Props {
   stories?: any[];
+  currentStory?: string;
 }
 
-const { stories } = Astro.props;
+const { stories, currentStory } = Astro.props;
 
 // If no stories are passed, fetch all stories and sort them by date
 let displayStories = stories || [];
@@ -15,13 +16,15 @@ if (!stories || stories.length === 0) {
 }
 ---
 {displayStories.map(story => (
-  <div class="post">
-    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</div>
-    <div class="post-title">
-      <a href={`/stories/${story.id}/`}>{story.data.title}</a>
-    </div>
+  <article class={`post ${story.id === currentStory ? 'current-story-card' : ''}`}>
+    <header>
+      <time class="post-date" datetime={story.data.date.toISOString()}>{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</time>
+      <h3 class="post-title">
+        <a href={`/stories/${story.id}/`}>{story.data.title}</a>
+      </h3>
+    </header>
     <div class="post-summary">{story.data.description}</div>
-  </div>
+  </article>
 ))} 
 
 <style>

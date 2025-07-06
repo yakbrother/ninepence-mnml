@@ -16,13 +16,13 @@ if (newest) {
 
   {newest && (
     <>
-      <h1>
+      <h1 class="current-story">
         {newest.data.title.toLowerCase()}
       </h1>
       <hr/>
       <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.id}/`} class="permalink" title="permalink">
           permalink
-        </a></div>
+                  </a></div>
       <div class="stack">
         {Content && <Content />}
       </div>

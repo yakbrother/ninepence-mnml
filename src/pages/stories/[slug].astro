@@ -18,7 +18,10 @@ const story = await getEntry('stories', slug) as CollectionEntry<'stories'>;
 if (!story) throw new Error('Story not found');
 const { Content } = await render(story);
 ---
-<BaseLayout title={`${story.data.title} | mostly true`}>
+<BaseLayout 
+  title={`${story.data.title} | mostly true`}
+  description={story.data.description}
+>
   <article class="stack">
     <h1>{story.data.title.toLowerCase()}</h1>
     <hr/>
@@ -27,11 +30,14 @@ const { Content } = await render(story);
       <Content />
     </div>
     {Array.isArray(story.data.tags) && story.data.tags.length > 0 && (
-      <div class="tag-list" style="margin-top:2em;">
-        {story.data.tags.map((tag: string) => (
-          <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>
-        ))}
-      </div>
+      <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
+        <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
+        <ul class="tag-list-items">
+          {story.data.tags.map((tag: string) => (
+            <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
+          ))}
+        </ul>
+      </nav>
     )}
   </article>
 </BaseLayout> 
