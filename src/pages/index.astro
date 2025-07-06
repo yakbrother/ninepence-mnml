@@ -26,13 +26,17 @@ if (newest) {
       <div class="stack">
         {Content && <Content />}
       </div>
+
       {Array.isArray(newest.data.tags) && newest.data.tags.length > 0 && (
-        <div class="tag-list" style="margin-top:2em;">
-          {newest.data.tags.map(tag => (
-            <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>
+      <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
+        <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
+        <ul class="tag-list-items">
+          {newest.data.tags.map((tag: string) => (
+            <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
           ))}
-        </div>
-      )}
+        </ul>
+      </nav>
+    )}
     </>
   )}
   </article>

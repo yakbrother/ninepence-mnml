@@ -15,6 +15,8 @@ if (!stories || stories.length === 0) {
   displayStories = allStories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 ---
+
+<aside>
 {displayStories.map(story => (
   <article class={`post ${story.id === currentStory ? 'current-story-card' : ''}`}>
     <header>
@@ -26,6 +28,7 @@ if (!stories || stories.length === 0) {
     <div class="post-summary">{story.data.description}</div>
   </article>
 ))} 
+</aside>
 
 <style>
 

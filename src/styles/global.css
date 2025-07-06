@@ -748,7 +748,7 @@ footer {
 
 /* Logo wind animation */
 .masthead a img {
-  animation: windSway 30s ease-in-out infinite;
+  animation: windSway 15s ease-in-out infinite;
   transform-origin: center bottom;
 }
 
