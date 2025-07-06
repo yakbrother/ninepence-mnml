@@ -9,7 +9,7 @@ tags:
 draft: false
 ---
 
-Julie and were about to board the train for Lausanne - the first time on a train in my new electric wheel chair. Julie motioned to the woman next to us, asking for a path through for the wheelchair.
+Julie and were about to board the train for Lausanne - the first time on a train in my new electric wheelchair. Julie motioned to the woman next to us, asking for a path through for the wheelchair.
 
 The woman ignored her and pushed in front of us. As soon as she entered the train, instead of stepping aside to let me pass, where there was room for ten people, a few large dogs, and a keg (for example), she stood to block the doorway.
 

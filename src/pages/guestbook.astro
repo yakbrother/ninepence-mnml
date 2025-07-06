@@ -17,30 +17,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         method="POST"
         data-netlify="true"
         action="/thank-you"
+        aria-labelledby="guestbook-title"
       >
         <input type="hidden" name="form-name" value="guestbook" />
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" required />
+        <fieldset>
+          <legend class="visually-hidden">Contact Information</legend>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name: <span class="required" aria-label="required">*</span></label>
+              <input type="text" id="name" name="name" required aria-required="true" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email (Optional):</label>
+              <input type="email" id="email" name="email" aria-describedby="email-help" />
+              <div id="email-help" class="help-text">We'll only use this to respond to your message</div>
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="email">Email (Optional):</label>
-            <input type="email" id="email" name="email" />
+            <label for="website">Website (Optional):</label>
+            <input type="url" id="website" name="website" placeholder="https://example.com" />
           </div>
-        </div>
+        </fieldset>
 
-        <div class="form-group">
-          <label for="website">Website (Optional):</label>
-          <input type="url" id="website" name="website" />
-        </div>
-
-        <div class="form-group">
-          <label for="message">Your Message:</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-        </div>
+        <fieldset>
+          <legend class="visually-hidden">Message</legend>
+          <div class="form-group">
+            <label for="message">Your Message: <span class="required" aria-label="required">*</span></label>
+            <textarea id="message" name="message" rows="5" required aria-required="true" aria-describedby="message-help"></textarea>
+            <div id="message-help" class="help-text">Share your thoughts, stories, or just say hello!</div>
+          </div>
+        </fieldset>
 
         <button type="submit">Submit</button>
       </form>
@@ -57,6 +66,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       margin-top: var(--s2);
     }
 
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+    }
+
+    legend {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .form-group {
       margin-bottom: 1.5rem;
     }
@@ -64,17 +96,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .form-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem; /* Matches .form-group margin-bottom */
-      margin-bottom: 1.5rem; /* Spacing before the next full-width field */
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-row .form-group {
-      margin-bottom: 0; /* Remove default margin as gap handles spacing */
+      margin-bottom: 0;
     }
 
     label {
       display: block;
       margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .required {
+      color: #d32f2f;
+    }
+
+    .help-text {
+      font-size: 0.875rem;
+      color: #666;
+      margin-top: 0.25rem;
     }
 
     input,
@@ -85,6 +128,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       border-radius: 4px;
       background-color: white;
       color: var(--color-text);
+      font-family: inherit;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: 2px solid var(--color-special);
+      outline-offset: 2px;
+      border-color: var(--color-special);
     }
 
     button {
@@ -94,6 +145,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: var(--color-special);
+    }
+
+    button:focus {
+      outline: 2px solid var(--color-special);
+      outline-offset: 2px;
     }
   </style>
 </BaseLayout> 

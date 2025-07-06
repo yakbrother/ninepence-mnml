@@ -1,35 +1,31 @@
 ---
 export interface Props {
   title?: string;
-}
-const { title = 'mostly true' } = Astro.props;
----
----
-import "../styles/global.css";
-import { ClientRouter } from "astro:transitions";
-
-
-interface Props {
-  title: string;
-  description: string;
+  description?: string;
   image?: string;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { 
+  title = 'mostly true', 
+  description = "Stories by Virgil Eaton.", 
+  image = "/assets/og-default.jpg" 
+} = Astro.props;
 
-const { title, description = "Stories by Virgil Eaton.", image = "/assets/og-default.jpg" } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://mostlytrue.life');
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#442625" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 <link
   rel="icon"
   href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>"
 />
+<link rel="preload" href="/fonts/arvo-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/arvo-bold.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="generator" content={Astro.generator} />
-
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -45,6 +41,7 @@ const { title, description = "Stories by Virgil Eaton.", image = "/assets/og-def
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:site_name" content="mostly true" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -63,7 +60,6 @@ const { title, description = "Stories by Virgil Eaton.", image = "/assets/og-def
 
     document.addEventListener("scroll", onScroll);
   }
-
 
   function animate() {
     const animateElements = document.querySelectorAll(".animate");
@@ -90,5 +86,4 @@ const { title, description = "Stories by Virgil Eaton.", image = "/assets/og-def
       behavior: "smooth",
     });
   }
-
 </script>

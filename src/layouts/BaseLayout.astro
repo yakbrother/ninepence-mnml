@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Meta from '../components/Meta.astro';
 import WhatNext from '../components/WhatNext.astro';
 import BackToTop from '../components/BackToTop.astro';
 import StoryList from '../components/StoryList.astro';
@@ -15,15 +16,12 @@ const isStoriesIndexPage = Astro.url.pathname === '/stories/';
 ---
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | mostly true</title>
-    <link rel="preload" href="/fonts/arvo-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/arvo-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <Meta />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <main class="content">
+    <main id="main-content" class="content">
       <slot />
       <WhatNext />
       {!isStoriesIndexPage && (
