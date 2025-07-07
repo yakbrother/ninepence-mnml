@@ -1,5 +1,3 @@
-/Users/smilodon/Projects/ninepence-mnml/public/assets/og_default.jpg
-
 # mostly true
 
 A personal blog built with Astro, featuring stories from life by Virgil Eaton.
