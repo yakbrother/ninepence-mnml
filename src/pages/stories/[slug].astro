@@ -19,7 +19,7 @@ if (!story) throw new Error('Story not found');
 const { Content } = await render(story);
 ---
 <BaseLayout 
-  title={`${story.data.title} | mostly true`}
+  title={`${story.data.title.toLowerCase()} | mostly true`}
   description={story.data.description}
 >
   <article class="stack">

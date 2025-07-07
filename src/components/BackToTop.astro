@@ -7,6 +7,8 @@
   class="back-to-top-button group"
   aria-label="Back to top of page"
   title="Back to top"
+  onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+  onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'}); }"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
