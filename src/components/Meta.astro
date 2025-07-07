@@ -7,8 +7,8 @@ export interface Props {
 
 const { 
   title = 'mostly true', 
-  description = "Stories by Virgil Eaton.", 
-  image = "/assets/og-default.jpg" 
+  description = "stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more", 
+  image = "/assets/og_default.jpg" 
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://mostlytrue.life');
@@ -30,9 +30,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://mostlytr
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Primary Meta Tags -->
-<title>mostly true | {title}</title>
-<meta name="title" content={title} />
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->

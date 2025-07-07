@@ -10,7 +10,7 @@ export interface Props {
   title?: string;
   description?: string;
 }
-const { title = 'virgil eaton', description } = Astro.props;
+const { title = 'mostly true | virgil eaton', description } = Astro.props;
 
 // Check if we're on the stories index page to avoid showing the story list there
 const isStoriesIndexPage = Astro.url.pathname === '/stories/';
@@ -38,6 +38,7 @@ if (Astro.url.pathname.startsWith('/stories/') && Astro.url.pathname !== '/stori
   <head>
     <Meta />
     <title>{title}</title>
+    <meta name="title" content="{title}" />
     {description && <meta name="description" content={description} />}
   </head>
   <body>
