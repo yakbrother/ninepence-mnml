@@ -1,4 +1,4 @@
-![Mostly True - Stories from Life](public/og_default.jpg)
+/Users/smilodon/Projects/ninepence-mnml/public/assets/og_default.jpg
 
 # mostly true
 
