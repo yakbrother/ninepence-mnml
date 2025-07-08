@@ -3,7 +3,7 @@ title: "That One Time I Never Stopped Loving the Internet"
 description: "In an isolationist, rural part of America, I had to get creative to learn how to connect and hear other people’s stories."
 date: "2025-05-08"
 tags: ["childhood", "tech", "missouri", "internet"]
-featured: true;
+featured: true
 ---
 
 For the longest time, since I was a child, I loved tinkering with computers — taking them apart and rebuilding them, then using childish fantasies to make MS-DOS answer me if I asked specific questions. My private choose-your-own-adventure AI assistant. Sort of.

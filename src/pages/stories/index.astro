@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StoryList from '../../components/StoryList.astro';
 const stories = await getCollection('stories');
-const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sortedStories = stories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 <BaseLayout title="stories | mostly true" description="A collection of all stories on Mostly True.">
   <h1>all stories</h1>

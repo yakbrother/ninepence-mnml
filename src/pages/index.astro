@@ -3,8 +3,16 @@ import { getCollection, render } from 'astro:content';
 import '../styles/global.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const stories = await getCollection('stories');
-const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const publishedStories = stories.filter(story => !story.data.draft);
+const sortedStories = publishedStories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 const [newest, ...others] = sortedStories;
+
+// Debug: Log the newest story info
+console.log('Newest story:', newest?.data.title, newest?.data.date, newest?.id);
+console.log('All stories sorted by date:');
+sortedStories.slice(0, 5).forEach((story, index) => {
+  console.log(`${index + 1}. ${story.data.title} - ${story.data.date} - ${story.id}`);
+});
 let Content = null;
 if (newest) {
   const rendered = await render(newest);
@@ -20,7 +28,7 @@ if (newest) {
         {newest.data.title.toLowerCase()}
       </h1>
       <hr/>
-      <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.id}/`} class="permalink" title="permalink">
+      <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.id.split('/')[0]}/`} class="permalink" title="permalink">
           permalink
                   </a></div>
       <div class="stack">

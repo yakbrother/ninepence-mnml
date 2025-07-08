@@ -12,7 +12,7 @@ const { stories, currentStory } = Astro.props;
 let displayStories = stories || [];
 if (!stories || stories.length === 0) {
   const allStories = await getCollection('stories');
-  displayStories = allStories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+      displayStories = allStories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 }
 ---
 
@@ -20,9 +20,9 @@ if (!stories || stories.length === 0) {
 {displayStories.map(story => (
   <article class={`post ${story.id === currentStory ? 'current-story-card' : ''}`}>
     <header>
-      <time class="post-date" datetime={story.data.date.toISOString()}>{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</time>
+      <time class="post-date" datetime={new Date(story.data.date).toISOString()}>{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</time>
       <h3 class="post-title">
-        <a href={`/stories/${story.id}/`}>{story.data.title}</a>
+        <a href={`/stories/${story.id.split('/')[0]}/`}>{story.data.title}</a>
       </h3>
     </header>
     <div class="post-summary">{story.data.description}</div>

@@ -28,18 +28,16 @@ if (Astro.url.pathname.startsWith('/stories/') && Astro.url.pathname !== '/stori
   // We'll need to fetch the stories to get the newest one
   const { getCollection } = await import('astro:content');
   const stories = await getCollection('stories');
-  const sortedStories = stories.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const publishedStories = stories.filter(story => !story.data.draft);
+  const sortedStories = publishedStories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
   if (sortedStories.length > 0) {
-    currentStoryId = sortedStories[0].id;
+    currentStoryId = sortedStories[0].id.split('/')[0];
   }
 }
 ---
 <html lang="en">
   <head>
-    <Meta />
-    <title>{title}</title>
-    <meta name="title" content="{title}" />
-    {description && <meta name="description" content={description} />}
+    <Meta title={title} description={description} />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>

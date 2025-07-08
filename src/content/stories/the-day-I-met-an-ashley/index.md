@@ -1,6 +1,6 @@
 ---
 title: "The Day I Met an Ashley"
-description: "My love game at age 8 was horrible. This one is purely for the pleasure of making fun of me."
+description: "My love game at age 8 was horrible. This one is purely for the pleasure of making fun of myself."
 date: "2025-03-07"
 draft: false
 tags: ["childhood", "love", "embarrassing"]

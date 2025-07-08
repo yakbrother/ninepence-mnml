@@ -10,12 +10,17 @@ export async function getStaticPaths() {
       (story.data.tags as string[]).forEach((tag: string) => tagSet.add(tag));
     }
   });
-  return stories.map(story => ({ params: { slug: story.id } }));
+  return stories.map(story => {
+    // Extract just the directory name from the story ID
+    const slug = story.id.split('/')[0];
+    return { 
+      params: { slug },
+      props: { story }
+    };
+  });
 }
 
-const { slug } = Astro.params;
-const story = await getEntry('stories', slug) as CollectionEntry<'stories'>;
-if (!story) throw new Error('Story not found');
+const { story } = Astro.props;
 const { Content } = await render(story);
 ---
 <BaseLayout 

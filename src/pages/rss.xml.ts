@@ -39,7 +39,7 @@ export async function GET(context: APIContext) {
       <title>${item.data.title}</title>
       <description>${item.data.description}</description>
       <link>${SITE.WEBSITE_URL}/${item.collection}/${item.id}/</link>
-      <pubDate>${item.data.date.toUTCString()}</pubDate>
+      <pubDate>${new Date(item.data.date).toUTCString()}</pubDate>
     </item>`,
       )
       .join("")}
