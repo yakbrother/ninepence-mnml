@@ -664,7 +664,7 @@ footer {
   color: var(--color-dark);
   margin: 1.5rem 0;
   font-style: italic;
-  background: var(--color-mid);
+  background: var(--color-lighter);
 }
 
 .post-content pre,
