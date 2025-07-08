@@ -1,5 +1,3 @@
-![Mostly True - Stories from Life](public/og_default.jpg)
-
 # mostly true
 
 A personal blog built with Astro, featuring stories from life by Virgil Eaton.
