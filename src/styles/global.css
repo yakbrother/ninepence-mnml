@@ -219,16 +219,19 @@ h1 > a {
 
 .h2,
 h2 {
+  font-size: 2.83rem;
   font-size: var(--s3);
 }
 
 .h3,
 h3 {
+  font-size: 2rem;
   font-size: var(--s2);
 }
 
 .h4,
 h4 {
+  font-size: 1.41rem;
   font-size: var(--s1);
 }
 
@@ -347,6 +350,7 @@ h4 {
 
 .h1,
 h1 {
+  font-size: 2.83rem;
   font-size: var(--s3);
 }
 
