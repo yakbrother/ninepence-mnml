@@ -251,13 +251,13 @@ section.intro {
 }
 
 a {
-  text-decoration-style: underline dashed;
+  text-decoration-style: underline dotted;
   text-decoration-color: var(--color-link);
   color: var(--color-link);
 }
 
 a:hover {
-  text-decoration: underline dashed;
+  text-decoration: underline dotted;
   text-decoration-color: var(--color-link-hover);
   color: var(--color-link-hover);
 }
@@ -284,14 +284,14 @@ article h6 {
 /* Link styles */
 article a {
   color: var(--color-link);
-  text-decoration: underline dashed;
+  text-decoration: underline dotted;
   transition:
     color 0.3s ease-in-out,
     text-decoration-color 0.3s ease-in-out;
 }
 
 article a:hover {
-  text-decoration: underline dashed;
+  text-decoration: underline dotted;
   text-underline-offset: 3px;
   color: var(--color-link-hover);
   text-decoration-color: var(--color-link-hover);
@@ -514,7 +514,7 @@ html.scrolled #back-to-top {
 
 .permalink {
   color: var(--color-link);
-  text-decoration: underline dashed;
+  text-decoration: underline dotted;
   transition: color 0.2s ease;
 }
 
@@ -644,7 +644,7 @@ footer {
 }
 .main-nav a:hover {
   color: var(--color-link-hover);
-  text-decoration: underline dashed;
+  text-decoration: underline dotted;
   text-decoration-color: var(--color-link-hover);
 }
 .main-nav .active {
@@ -713,7 +713,7 @@ footer {
   border-radius: var(--s-3);
   font-size: var(--s-1);
   text-decoration: none;
-  color: var(--color-dark);
+  color: var(--color-light);
   transition: all 0.2s ease;
 }
 

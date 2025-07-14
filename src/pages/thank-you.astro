@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout 
+  title="thank you | mostly true"
+  description="Thank you for subscribing to my newsletter. Please check your email to confirm your subscription."
+>
+  <article class="stack">
+    <h1>thank you</h1>
+    <hr/>
+    <p>
+      Thanks for subscribing to my newsletter! I'm excited to share stories, thoughts on accessibility, life in Switzerland, and whatever else is on my mind with you.
+    </p>
+    
+    <div class="confirmation-box">
+      <h2>Check your inbox</h2>
+      <p>
+        I've sent you a confirmation email. Please click the link in that email to confirm your subscription. This helps ensure you actually want to hear from me and keeps the spam bots away.
+      </p>
+      
+      <p>
+        If you don't see the email in your inbox, check your spam folder. Sometimes these confirmation emails get filtered there.
+      </p>
+    </div>
+    
+    <p>
+      Once you confirm, you'll start receiving occasional updates from me. No spam, just genuine thoughts and stories. You can unsubscribe anytime if you change your mind.
+    </p>
+    
+    <p>
+      <a href="/">← Back to home</a>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .confirmation-box {
+    background: var(--color-lighter);
+    border: 2px solid var(--color-special);
+    border-radius: 8px;
+    padding: var(--s2);
+    margin: var(--s2) 0;
+  }
+  
+  .confirmation-box h2 {
+    color: var(--color-special);
+    margin-bottom: var(--s1);
+  }
+  
+  .confirmation-box p {
+    margin-bottom: var(--s1);
+  }
+  
+  .confirmation-box p:last-child {
+    margin-bottom: 0;
+  }
+</style> 
