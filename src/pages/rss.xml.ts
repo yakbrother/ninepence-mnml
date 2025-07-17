@@ -2,27 +2,22 @@ import { getCollection } from "astro:content";
 import { SITE } from "../consts";
 import type { APIContext } from "astro";
 
-interface StoryData {
-  draft?: boolean;
-  date: Date;
-  title: string;
-  description: string;
-}
-
-interface Story {
-  data: StoryData;
-  collection: string;
-  id: string;
-}
-
 export async function GET(context: APIContext) {
-  const stories = (await getCollection("stories")).filter(
-    (post) => !post.data.draft,
-  ) as unknown as Story[];
+  const stories = await getCollection("stories", ({ data }) => !data.draft);
 
   const items = stories.sort(
     (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
   );
+
+  // Convert markdown content to HTML for RSS
+  const itemsWithContent = items.map((item) => {
+    // Convert markdown to HTML for RSS feed
+    const contentHtml = item.body;
+    return {
+      ...item,
+      content: contentHtml,
+    };
+  });
 
   return new Response(
     `<?xml version="1.0" encoding="UTF-8"?>
@@ -32,13 +27,13 @@ export async function GET(context: APIContext) {
     <description>${SITE.DESCRIPTION}</description>
     <link>${SITE.WEBSITE_URL}</link>
     <language>en</language>
-    ${items
+    ${itemsWithContent
       .map(
         (item) => `
     <item>
       <title>${item.data.title}</title>
-      <description>${item.data.description}</description>
-      <link>${SITE.WEBSITE_URL}/${item.collection}/${item.id}/</link>
+      <description><![CDATA[${item.content}]]></description>
+      <link>${SITE.WEBSITE_URL}/stories/${item.slug}/</link>
       <pubDate>${new Date(item.data.date).toUTCString()}</pubDate>
     </item>`,
       )
