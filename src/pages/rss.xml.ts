@@ -9,16 +9,6 @@ export async function GET(context: APIContext) {
     (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
   );
 
-  // Convert markdown content to HTML for RSS
-  const itemsWithContent = items.map((item) => {
-    // Convert markdown to HTML for RSS feed
-    const contentHtml = item.body;
-    return {
-      ...item,
-      content: contentHtml,
-    };
-  });
-
   return new Response(
     `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -27,12 +17,12 @@ export async function GET(context: APIContext) {
     <description>${SITE.DESCRIPTION}</description>
     <link>${SITE.WEBSITE_URL}</link>
     <language>en</language>
-    ${itemsWithContent
+    ${items
       .map(
         (item) => `
     <item>
       <title>${item.data.title}</title>
-      <description><![CDATA[${item.content}]]></description>
+      <description>${item.data.description}</description>
       <link>${SITE.WEBSITE_URL}/stories/${item.slug}/</link>
       <pubDate>${new Date(item.data.date).toUTCString()}</pubDate>
     </item>`,
