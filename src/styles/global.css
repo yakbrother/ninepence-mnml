@@ -707,7 +707,7 @@ footer {
 
 .tag-list .tag {
   display: inline-block;
-  background: var(--color-mid);
+  background: var(--color-dark);
   padding: var(--s-3) var(--s-1);
   margin: var(--s-3) var(--s-3) var(--s-3) 0;
   border-radius: var(--s-3);

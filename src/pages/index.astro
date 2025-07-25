@@ -19,7 +19,10 @@ if (newest) {
   Content = rendered.Content;
 }
 ---
-<BaseLayout title="mostly true | virgil eaton">
+<BaseLayout 
+  title="mostly true | virgil eaton"
+  description={newest?.data.description || "stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more..."}
+>
   <article class="stack">
 
   {newest && (

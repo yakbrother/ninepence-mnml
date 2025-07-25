@@ -22,7 +22,7 @@ if (!stories || stories.length === 0) {
     <header>
       <time class="post-date" datetime={new Date(story.data.date).toISOString()}>{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</time>
       <h3 class="post-title">
-        <a href={`/stories/${story.id.split('/')[0]}/`}>{story.data.title}</a>
+        <a href={`/stories/${story.id.split('/')[0]}/`}>{story.data.title.toLowerCase()}</a>
       </h3>
     </header>
     <div class="post-summary">{story.data.description}</div>

@@ -17,7 +17,7 @@ const { prevPost, nextPost } = Astro.props;
             class="post-navigation-prev-arrow"
           />
         </svg>
-        <div class="post-navigation-title">{prevPost?.data.title}</div>
+        <div class="post-navigation-title">{prevPost?.data.title.toLowerCase()}</div>
       </a>
     ) : (
       <div class="post-navigation-placeholder" />
@@ -38,7 +38,7 @@ const { prevPost, nextPost } = Astro.props;
             class="post-navigation-next-arrow"
           />
         </svg>
-        <div class="post-navigation-title">{nextPost?.data.title}</div>
+        <div class="post-navigation-title">{nextPost?.data.title.toLowerCase()}</div>
       </a>
     ) : (
       <div class="post-navigation-placeholder" />

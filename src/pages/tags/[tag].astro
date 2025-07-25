@@ -20,7 +20,10 @@ const stories = (await getCollection('stories')).filter(story =>
 );
 ---
 
-<BaseLayout title={`#${tag.toLowerCase()} | mostly true`}>
+<BaseLayout 
+  title={`#${tag.toLowerCase()} | mostly true`}
+  description={`Stories tagged with "${tag.toLowerCase()}" - explore related stories about ${tag.toLowerCase()} and more.`}
+>
   <h1>stories tagged: <span class="tag">{tag.toLowerCase()}</span></h1>
   <hr/>
   <br/>
