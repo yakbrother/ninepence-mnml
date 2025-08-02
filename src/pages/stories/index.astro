@@ -1,12 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
+import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StoryList from '../../components/StoryList.astro';
-const stories = await getCollection('stories');
-const sortedStories = stories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
 ---
 <BaseLayout title="stories | mostly true" description="a collection of all stories on mostly true.">
   <h1>all stories</h1>
   <hr/>
-  <StoryList stories={sortedStories} />
+  <StoryList stories={stories} />
 </BaseLayout> 

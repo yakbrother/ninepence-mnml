@@ -1,4 +1,4 @@
-import { getCollection } from "astro:content";
+import { sanityClient } from "sanity:client";
 import { SITE } from "../consts";
 import type { APIContext } from "astro";
 
@@ -26,17 +26,15 @@ function markdownToHtml(markdown: string): string {
 }
 
 export async function GET(context: APIContext) {
-  const stories = await getCollection("stories", ({ data }) => !data.draft);
-
-  const items = stories.sort(
-    (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
+  const stories = await sanityClient.fetch(
+    `*[_type == "story" && !draft] | order(date desc)`,
   );
 
   // Convert markdown content to HTML for RSS
-  const itemsWithContent = items.map((item) => {
-    const contentHtml = markdownToHtml(item.body);
+  const itemsWithContent = stories.map((story) => {
+    const contentHtml = markdownToHtml(story.content || "");
     return {
-      ...item,
+      ...story,
       content: contentHtml,
     };
   });
@@ -53,7 +51,7 @@ export async function GET(context: APIContext) {
       .map(
         (item) => `
     <item>
-      <title>${item.data.title.replace(/[<>&]/g, (match) => {
+      <title>${item.title.replace(/[<>&]/g, (match) => {
         const entities: Record<string, string> = {
           "<": "&lt;",
           ">": "&gt;",
@@ -62,8 +60,8 @@ export async function GET(context: APIContext) {
         return entities[match];
       })}</title>
       <description><![CDATA[${item.content}]]></description>
-      <link>${SITE.WEBSITE_URL}/stories/${item.slug}/</link>
-      <pubDate>${new Date(item.data.date).toUTCString()}</pubDate>
+      <link>${SITE.WEBSITE_URL}/stories/${item.slug.current}/</link>
+      <pubDate>${new Date(item.date).toUTCString()}</pubDate>
     </item>`,
       )
       .join("")}

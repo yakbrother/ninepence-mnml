@@ -1,48 +1,68 @@
 ---
-import { getCollection, render } from 'astro:content';
+export const prerender = false;
+import { sanityClient } from "sanity:client";
 import '../styles/global.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
-const stories = await getCollection('stories');
-const publishedStories = stories.filter(story => !story.data.draft);
-const sortedStories = publishedStories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-const [newest, ...others] = sortedStories;
 
-let Content = null;
+// Simple markdown to HTML converter for basic formatting
+function markdownToHtml(markdown: string): string {
+  return (
+    markdown
+      // Convert **bold** to <strong>
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      // Convert *italic* to <em>
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      // Convert _italic_ to <em>
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      // Convert [link text](url) to <a href="url">link text</a>
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+      // Convert line breaks to <br>
+      .replace(/\n\n/g, "</p><p>")
+      .replace(/\n/g, "<br>")
+      // Wrap in paragraphs
+      .replace(/^(.+)$/s, "<p>$1</p>")
+      // Clean up empty paragraphs
+      .replace(/<p><\/p>/g, "")
+      .replace(/<p><br><\/p>/g, "")
+  );
+}
+
+const stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
+const [newest, ...others] = stories;
+
+// Process markdown content if newest story exists
+let processedContent = '';
 if (newest) {
-  const rendered = await render(newest);
-  Content = rendered.Content;
+  processedContent = markdownToHtml(newest.content);
 }
 ---
 <BaseLayout 
   title="mostly true | virgil eaton"
-  description={newest?.data.description || "stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more..."}
+  description={newest?.description || "stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more..."}
 >
   <article class="stack">
-
-  {newest && (
-    <>
-      <h1 class="current-story">
-        {newest.data.title.toLowerCase()}
-      </h1>
-      <hr/>
-      <div class="post-date">{new Date(newest.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.id.split('/')[0]}/`} class="permalink" title="permalink">
+    {newest && (
+      <>
+        <h1 class="current-story">
+          {newest.title.toLowerCase()}
+        </h1>
+        <hr/>
+        <div class="post-date">{new Date(newest.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.slug.current}/`} class="permalink" title="permalink">
           permalink
-                  </a></div>
-      <div class="stack">
-        {Content && <Content />}
-      </div>
+        </a></div>
+        <Fragment set:html={processedContent} />
 
-      {Array.isArray(newest.data.tags) && newest.data.tags.length > 0 && (
-      <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
-        <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
-        <ul class="tag-list-items">
-          {newest.data.tags.map((tag: string) => (
-            <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
-          ))}
-        </ul>
-      </nav>
+        {Array.isArray(newest.tags) && newest.tags.length > 0 && (
+          <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
+            <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
+            <ul class="tag-list-items">
+              {newest.tags.map((tag: string) => (
+                <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </>
     )}
-    </>
-  )}
   </article>
 </BaseLayout> 

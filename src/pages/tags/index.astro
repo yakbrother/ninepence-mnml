@@ -1,11 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
+import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const stories = await getCollection('stories');
+const stories = await sanityClient.fetch(`*[_type == "story" && !draft]`);
 const tagSet = new Set<string>();
 stories.forEach(story => {
-  if (Array.isArray(story.data.tags)) {
-    (story.data.tags as string[]).forEach((tag: string) => tagSet.add(tag));
+  if (Array.isArray(story.tags)) {
+    story.tags.forEach((tag: string) => tagSet.add(tag));
   }
 });
 const tags = Array.from(tagSet).sort();

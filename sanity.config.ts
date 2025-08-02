@@ -12,8 +12,8 @@ export default defineConfig({
     types: [
       {
         type: "document",
-        name: "post",
-        title: "Post",
+        name: "story",
+        title: "Story",
         fields: [
           {
             name: "title",
@@ -51,8 +51,20 @@ export default defineConfig({
             type: "array",
             of: [{ type: "string" }],
           },
+          {
+            name: "featured",
+            title: "Featured",
+            type: "boolean",
+            initialValue: false,
+          },
+          {
+            name: "content",
+            title: "Content",
+            type: "text",
+            rows: 20,
+          },
         ],
       },
     ],
   },
-}); 
+});
