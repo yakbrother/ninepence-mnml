@@ -2,6 +2,19 @@ import { sanityClient } from "sanity:client";
 import { SITE } from "../consts";
 import type { APIContext } from "astro";
 
+// Define the story type based on the Sanity schema
+interface Story {
+  _id: string;
+  _type: string;
+  title: string;
+  slug: { current: string };
+  content: string;
+  date: string;
+  description?: string;
+  draft?: boolean;
+  tags?: string[];
+}
+
 // Simple markdown to HTML converter for basic formatting
 function markdownToHtml(markdown: string): string {
   return (
@@ -31,7 +44,7 @@ export async function GET(context: APIContext) {
   );
 
   // Convert markdown content to HTML for RSS
-  const itemsWithContent = stories.map((story) => {
+  const itemsWithContent = stories.map((story: Story) => {
     const contentHtml = markdownToHtml(story.content || "");
     return {
       ...story,
@@ -49,9 +62,9 @@ export async function GET(context: APIContext) {
     <language>en</language>
     ${itemsWithContent
       .map(
-        (item) => `
+        (item: Story & { content: string }) => `
     <item>
-      <title>${item.title.replace(/[<>&]/g, (match) => {
+      <title>${item.title.replace(/[<>&]/g, (match: string) => {
         const entities: Record<string, string> = {
           "<": "&lt;",
           ">": "&gt;",
