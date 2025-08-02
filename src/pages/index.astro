@@ -7,12 +7,6 @@ const publishedStories = stories.filter(story => !story.data.draft);
 const sortedStories = publishedStories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 const [newest, ...others] = sortedStories;
 
-// Debug: Log the newest story info
-console.log('Newest story:', newest?.data.title, newest?.data.date, newest?.id);
-console.log('All stories sorted by date:');
-sortedStories.slice(0, 5).forEach((story, index) => {
-  console.log(`${index + 1}. ${story.data.title} - ${story.data.date} - ${story.id}`);
-});
 let Content = null;
 if (newest) {
   const rendered = await render(newest);

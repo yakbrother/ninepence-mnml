@@ -53,7 +53,14 @@ export async function GET(context: APIContext) {
       .map(
         (item) => `
     <item>
-      <title>${item.data.title}</title>
+      <title>${item.data.title.replace(/[<>&]/g, (match) => {
+        const entities: Record<string, string> = {
+          "<": "&lt;",
+          ">": "&gt;",
+          "&": "&amp;",
+        };
+        return entities[match];
+      })}</title>
       <description><![CDATA[${item.content}]]></description>
       <link>${SITE.WEBSITE_URL}/stories/${item.slug}/</link>
       <pubDate>${new Date(item.data.date).toUTCString()}</pubDate>

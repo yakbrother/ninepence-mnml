@@ -4,7 +4,7 @@ A personal blog built with Astro, featuring stories from life by Virgil Eaton.
 
 ## About
 
-This is the source code for [mostly true](https://mostlytrue.blog), a personal blog that shares stories from life. The site is built with modern web technologies and focuses on accessibility, performance, and a clean reading experience.
+This is the source code for [mostly true](https://www.mostlytrue.life), a personal blog that shares stories from life. The site is built with modern web technologies and focuses on accessibility, performance, and a clean reading experience.
 
 ## Features
 
@@ -168,8 +168,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-- **Website**: [mostlytrue.blog](https://mostlytrue.blog)
-- **Guestbook**: Leave a message on the [guestbook page](https://mostlytrue.blog/guestbook)
+- **Website**: [mostlytrue.life](https://www.mostlytrue.life)
+- **Guestbook**: Leave a message on the [guestbook page](https://www.mostlytrue.life/guestbook)
 
 ---
 
