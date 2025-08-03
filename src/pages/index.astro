@@ -3,66 +3,52 @@ export const prerender = false;
 import { sanityClient } from "sanity:client";
 import '../styles/global.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { markdownToHtml } from '../utils/markdown';
 
-// Simple markdown to HTML converter for basic formatting
-function markdownToHtml(markdown: string): string {
-  return (
-    markdown
-      // Convert **bold** to <strong>
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      // Convert *italic* to <em>
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      // Convert _italic_ to <em>
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      // Convert [link text](url) to <a href="url">link text</a>
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      // Convert line breaks to <br>
-      .replace(/\n\n/g, "</p><p>")
-      .replace(/\n/g, "<br>")
-      // Wrap in paragraphs
-      .replace(/^(.+)$/s, "<p>$1</p>")
-      // Clean up empty paragraphs
-      .replace(/<p><\/p>/g, "")
-      .replace(/<p><br><\/p>/g, "")
-  );
-}
-
-const stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
-const [newest, ...others] = stories;
-
-// Process markdown content if newest story exists
+let stories = [];
+let newest = null;
 let processedContent = '';
-if (newest) {
-  processedContent = markdownToHtml(newest.content);
+
+try {
+  stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
+  [newest, ...others] = stories;
+
+  // Process markdown content if newest story exists
+  if (newest) {
+    processedContent = markdownToHtml(newest.content);
+  }
+} catch (error) {
+  console.error('Error fetching stories:', error);
 }
 ---
-<BaseLayout 
+
+<BaseLayout
   title="mostly true | virgil eaton"
   description={newest?.description || "stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more..."}
 >
   <article class="stack">
-    {newest && (
-      <>
-        <h1 class="current-story">
-          {newest.title.toLowerCase()}
-        </h1>
-        <hr/>
-        <div class="post-date">{new Date(newest.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.slug.current}/`} class="permalink" title="permalink">
-          permalink
-        </a></div>
-        <Fragment set:html={processedContent} />
+  {newest && (
+    <>
+      <h1 class="current-story">
+        {newest.title.toLowerCase()}
+      </h1>
+      <hr/>
+      <div class="post-date">{new Date(newest.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton - <a href={`/stories/${newest.slug.current}/`} class="permalink" title="permalink">
+        permalink
+      </a></div>
+      <Fragment set:html={processedContent} />
 
-        {Array.isArray(newest.tags) && newest.tags.length > 0 && (
-          <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
-            <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
-            <ul class="tag-list-items">
-              {newest.tags.map((tag: string) => (
-                <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
-              ))}
-            </ul>
-          </nav>
-        )}
-      </>
-    )}
+      {Array.isArray(newest.tags) && newest.tags.length > 0 && (
+        <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
+          <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
+          <ul class="tag-list-items">
+            {newest.tags.map((tag: string) => (
+              <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </>
+  )}
   </article>
 </BaseLayout> 

@@ -4,18 +4,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import StoryList from '../../components/StoryList.astro';
 
 export async function getStaticPaths() {
-  const stories = await sanityClient.fetch(`*[_type == "story" && !draft]`);
-  const tagSet = new Set<string>();
-  stories.forEach(story => {
-    if (Array.isArray(story.tags)) {
-      story.tags.forEach((tag: string) => tagSet.add(tag));
-    }
-  });
-  return Array.from(tagSet).map(tag => ({ params: { tag } }));
+  try {
+    const stories = await sanityClient.fetch(`*[_type == "story" && !draft]`);
+    const tagSet = new Set<string>();
+    stories.forEach(story => {
+      if (Array.isArray(story.tags)) {
+        story.tags.forEach((tag: string) => tagSet.add(tag));
+      }
+    });
+    return Array.from(tagSet).map(tag => ({ params: { tag } }));
+  } catch (error) {
+    console.error('Error generating tag paths:', error);
+    return [];
+  }
 }
 
 const { tag } = Astro.params;
-const stories = await sanityClient.fetch(`*[_type == "story" && !draft && $tag in tags]`, { tag });
+let stories = [];
+
+try {
+  stories = await sanityClient.fetch(`*[_type == "story" && !draft && $tag in tags]`, { tag });
+} catch (error) {
+  console.error('Error fetching stories for tag:', error);
+}
 ---
 
 <BaseLayout 

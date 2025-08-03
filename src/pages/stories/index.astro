@@ -2,10 +2,22 @@
 import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StoryList from '../../components/StoryList.astro';
-const stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
+
+let stories = [];
+
+try {
+  stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
+} catch (error) {
+  console.error('Error fetching stories:', error);
+}
 ---
-<BaseLayout title="stories | mostly true" description="a collection of all stories on mostly true.">
-  <h1>all stories</h1>
+
+<BaseLayout 
+  title="stories | mostly true"
+  description="All stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more."
+>
+  <h1>stories</h1>
   <hr/>
+  <br/>
   <StoryList stories={stories} />
 </BaseLayout> 

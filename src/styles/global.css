@@ -334,7 +334,7 @@ main > * {
 }
 
 main > style,
-script {
+main > script {
   display: none;
 }
 

@@ -1,49 +1,34 @@
 ---
 import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-// Simple markdown to HTML converter for basic formatting
-function markdownToHtml(markdown: string): string {
-  return (
-    markdown
-      // Convert **bold** to <strong>
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      // Convert *italic* to <em>
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      // Convert _italic_ to <em>
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      // Convert [link text](url) to <a href="url">link text</a>
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      // Convert line breaks to <br>
-      .replace(/\n\n/g, "</p><p>")
-      .replace(/\n/g, "<br>")
-      // Wrap in paragraphs
-      .replace(/^(.+)$/s, "<p>$1</p>")
-      // Clean up empty paragraphs
-      .replace(/<p><\/p>/g, "")
-      .replace(/<p><br><\/p>/g, "")
-  );
-}
+import { markdownToHtml } from '../../utils/markdown';
 
 export async function getStaticPaths() {
-  const stories = await sanityClient.fetch(`*[_type == "story"]`);
-  return stories.map(story => {
-    return {
-      params: { slug: story.slug.current },
-      props: { story }
-    };
-  });
+  try {
+    const stories = await sanityClient.fetch(`*[_type == "story"]`);
+    return stories.map(story => {
+      return {
+        params: { slug: story.slug.current },
+        props: { story }
+      };
+    });
+  } catch (error) {
+    console.error('Error generating static paths:', error);
+    return [];
+  }
 }
 
 const { slug } = Astro.params;
-const story = await sanityClient.fetch(`*[_type == "story" && slug.current == $slug][0]`, { slug });
 
-if (!story) {
-  return Astro.redirect('/404');
-}
+try {
+  const story = await sanityClient.fetch(`*[_type == "story" && slug.current == $slug][0]`, { slug });
 
-// Process markdown content
-const processedContent = markdownToHtml(story.content);
+  if (!story) {
+    return new Response('Not found', { status: 404 });
+  }
+
+  // Process markdown content
+  const processedContent = markdownToHtml(story.content);
 ---
 
 <BaseLayout

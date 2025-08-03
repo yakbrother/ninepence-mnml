@@ -1,24 +1,36 @@
 ---
 import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const stories = await sanityClient.fetch(`*[_type == "story" && !draft]`);
-const tagSet = new Set<string>();
-stories.forEach(story => {
-  if (Array.isArray(story.tags)) {
-    story.tags.forEach((tag: string) => tagSet.add(tag));
-  }
-});
-const tags = Array.from(tagSet).sort();
+
+let allTags: string[] = [];
+
+try {
+  const stories = await sanityClient.fetch(`*[_type == "story" && !draft]`);
+  const tagSet = new Set<string>();
+  stories.forEach((story: any) => {
+    if (Array.isArray(story.tags)) {
+      story.tags.forEach((tag: string) => tagSet.add(tag));
+    }
+  });
+  allTags = Array.from(tagSet).sort();
+} catch (error) {
+  console.error('Error fetching tags:', error);
+}
 ---
+
 <BaseLayout 
   title="tags | mostly true"
-  description="Browse all story tags to discover topics and themes across Virgil Eaton's stories."
+  description="Browse stories by tags - find stories about specific topics, places, and themes."
 >
-  <h1>All Tags</h1>
+  <h1>tags</h1>
   <hr/>
-  <div class="tag-list" style="flex-wrap: wrap; justify-content: center;">
-    {tags.map((tag: string) => (
-      <a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a>
-    ))}
-  </div>
+  <br/>
+  <nav class="tag-list" aria-labelledby="tags-heading">
+    <h2 id="tags-heading" class="visually-hidden">All story tags</h2>
+    <ul class="tag-list-items">
+      {allTags.map((tag: string) => (
+        <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
+      ))}
+    </ul>
+  </nav>
 </BaseLayout> 

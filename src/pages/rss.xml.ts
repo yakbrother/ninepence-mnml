@@ -1,6 +1,7 @@
 import { sanityClient } from "sanity:client";
 import { SITE } from "../consts";
 import type { APIContext } from "astro";
+import { markdownToHtmlForRss, escapeRssTitle } from "../utils/markdown";
 
 // Define the story type based on the Sanity schema
 interface Story {
@@ -15,45 +16,23 @@ interface Story {
   tags?: string[];
 }
 
-// Simple markdown to HTML converter for basic formatting
-function markdownToHtml(markdown: string): string {
-  return (
-    markdown
-      // Convert **bold** to <strong>
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      // Convert *italic* to <em>
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      // Convert _italic_ to <em>
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      // Convert [link text](url) to <a href="url">link text</a>
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      // Convert line breaks to <br>
-      .replace(/\n\n/g, "</p><p>")
-      .replace(/\n/g, "<br>")
-      // Wrap in paragraphs
-      .replace(/^(.+)$/s, "<p>$1</p>")
-      // Clean up empty paragraphs
-      .replace(/<p><\/p>/g, "")
-      .replace(/<p><br><\/p>/g, "")
-  );
-}
-
 export async function GET(context: APIContext) {
-  const stories = await sanityClient.fetch(
-    `*[_type == "story" && !draft] | order(date desc)`,
-  );
+  try {
+    const stories = await sanityClient.fetch(
+      `*[_type == "story" && !draft] | order(date desc)`,
+    );
 
-  // Convert markdown content to HTML for RSS
-  const itemsWithContent = stories.map((story: Story) => {
-    const contentHtml = markdownToHtml(story.content || "");
-    return {
-      ...story,
-      content: contentHtml,
-    };
-  });
+    // Convert markdown content to HTML for RSS
+    const itemsWithContent = stories.map((story: Story) => {
+      const contentHtml = markdownToHtmlForRss(story.content || "");
+      return {
+        ...story,
+        content: contentHtml,
+      };
+    });
 
-  return new Response(
-    `<?xml version="1.0" encoding="UTF-8"?>
+    return new Response(
+      `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
     <title>${SITE.TITLE}</title>
@@ -64,14 +43,7 @@ export async function GET(context: APIContext) {
       .map(
         (item: Story & { content: string }) => `
     <item>
-      <title>${item.title.replace(/[<>&]/g, (match: string) => {
-        const entities: Record<string, string> = {
-          "<": "&lt;",
-          ">": "&gt;",
-          "&": "&amp;",
-        };
-        return entities[match];
-      })}</title>
+      <title>${escapeRssTitle(item.title)}</title>
       <description><![CDATA[${item.content}]]></description>
       <link>${SITE.WEBSITE_URL}/stories/${item.slug.current}/</link>
       <pubDate>${new Date(item.date).toUTCString()}</pubDate>
@@ -80,10 +52,14 @@ export async function GET(context: APIContext) {
       .join("")}
   </channel>
 </rss>`,
-    {
-      headers: {
-        "Content-Type": "application/xml",
+      {
+        headers: {
+          "Content-Type": "application/xml",
+        },
       },
-    },
-  );
+    );
+  } catch (error) {
+    console.error('Error generating RSS feed:', error);
+    return new Response('Error generating RSS feed', { status: 500 });
+  }
 }
