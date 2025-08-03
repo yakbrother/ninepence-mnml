@@ -1,222 +1,196 @@
-# mostly true
+# Sanity Migrate Markdown
 
-A personal blog built with Astro, featuring stories from life by Virgil Eaton.
-
-## About
-
-This is the source code for [mostly true](https://mostlytrue.blog), a personal blog that shares stories from life. The site is built with modern web technologies and focuses on accessibility, performance, and a clean reading experience.
+A Node.js package to migrate markdown files with frontmatter to Sanity CMS. Supports both directory-based and flat file structures.
 
 ## Features
 
-- **Fast & Lightweight**: Built with Astro for optimal performance
-- **Accessible**: WCAG 2.1 AA compliant with comprehensive accessibility features
-- **Responsive**: Works beautifully on all devices
-- **Clean Typography**: Optimized for reading with Arvo font
-- **Tag System**: Stories are organized with tags for easy discovery
-- **Guestbook**: Interactive guestbook for reader engagement
-- **RSS Feed**: Subscribe to get notified of new stories
-- **Search Engine Optimized**: Proper meta tags and structured data
+- ✅ Migrate markdown files with frontmatter to Sanity CMS
+- ✅ Support for both `.md` and `.mdx` files
+- ✅ Directory-based structure (e.g., `content/story/index.md`)
+- ✅ Flat file structure (e.g., `content/story.md`)
+- ✅ Custom field mapping
+- ✅ Dry run mode for previewing changes
+- ✅ Environment variable support
+- ✅ CLI interface
+- ✅ Programmatic API
 
-## Tech Stack
-
-- **Framework**: [Astro](https://astro.build)
-- **Content**: Markdown/MDX files
-- **Styling**: CSS with custom properties
-- **Deployment**: Netlify
-- **Forms**: Netlify Forms
-- **Fonts**: Arvo (Google Fonts)
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
+## Installation
 
 ```bash
-git clone https://github.com/yourusername/ninepence-mnml.git
-cd ninepence-mnml
+npm install sanity-migrate-markdown
 ```
 
-2. Install dependencies:
+## Usage
+
+### CLI
 
 ```bash
-npm install
+# Basic usage
+npx sanity-migrate-markdown \
+  --project-id "your-project-id" \
+  --dataset "production" \
+  --token "your-api-token" \
+  --content-dir "./content"
+
+# With custom document type
+npx sanity-migrate-markdown \
+  --project-id "your-project-id" \
+  --dataset "production" \
+  --token "your-api-token" \
+  --content-dir "./content" \
+  --document-type "post"
+
+# Dry run to preview changes
+npx sanity-migrate-markdown \
+  --project-id "your-project-id" \
+  --dataset "production" \
+  --token "your-api-token" \
+  --content-dir "./content" \
+  --dry-run
 ```
 
-3. Start the development server:
+### Programmatic API
 
-```bash
-npm run dev
+```javascript
+import { migrateMarkdownToSanity } from 'sanity-migrate-markdown';
+
+await migrateMarkdownToSanity({
+  projectId: 'your-project-id',
+  dataset: 'production',
+  token: 'your-api-token',
+  contentDir: './content',
+  documentType: 'story',
+  slugField: 'title',
+  fieldMapping: {
+    'customField': 'frontmatterField'
+  },
+  dryRun: false
+});
 ```
 
-4. Open your browser and visit `http://localhost:4321`
+## Configuration
 
-### Building for Production
+### Environment Variables
 
-```bash
-npm run build
+You can set these environment variables instead of passing them as arguments:
+
+- `PUBLIC_SANITY_STUDIO_PROJECT_ID` - Sanity project ID
+- `PUBLIC_SANITY_STUDIO_DATASET` - Sanity dataset name
+- `SANITY_TOKEN` - Sanity API token
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `projectId` | string | - | Sanity project ID |
+| `dataset` | string | - | Sanity dataset name |
+| `token` | string | - | Sanity API token |
+| `contentDir` | string | - | Directory containing markdown files |
+| `documentType` | string | `"story"` | Sanity document type |
+| `slugField` | string | `"title"` | Field to use for slug generation |
+| `fieldMapping` | object | `{}` | Custom field mapping |
+| `dryRun` | boolean | `false` | Preview changes without creating documents |
+
+## File Structure Support
+
+### Directory-based Structure
+
+```
+content/
+├── story-1/
+│   └── index.md
+├── story-2/
+│   └── index.mdx
+└── story-3/
+    └── index.md
 ```
 
-The built site will be in the `dist/` directory.
-
-## Project Structure
+### Flat File Structure
 
 ```
-ninepence-mnml/
-├── public/                 # Static assets
-│   ├── assets/            # Images and media
-│   ├── fonts/             # Custom fonts
-│   └── og_default.jpg     # Open Graph default image
-├── src/
-│   ├── components/        # Reusable Astro components
-│   ├── content/           # Content collections
-│   │   └── stories/       # Blog posts
-│   ├── layouts/           # Page layouts
-│   ├── pages/             # Route pages
-│   └── styles/            # Global CSS
-├── astro.config.mjs       # Astro configuration
-└── package.json
+content/
+├── story-1.md
+├── story-2.mdx
+└── story-3.md
 ```
 
-## Content Management
+## Markdown Frontmatter
 
-### Adding New Stories
+The package supports common frontmatter fields:
 
-1. Create a new folder in `src/content/stories/` with a slug name
-2. Add an `index.md` or `index.mdx` file with frontmatter:
-
-```markdown
+```yaml
 ---
-title: "Your Story Title"
-date: 2024-01-15
-description: "A brief description of your story"
-tags: ["travel", "adventure"]
+title: "My Story"
+description: "A brief description"
+date: "2024-01-01"
+draft: false
+tags: ["tag1", "tag2"]
+featured: true
 ---
-
-Your story content here...
 ```
 
-### Available Frontmatter Fields
+## Custom Field Mapping
 
-- `title`: Story title
-- `date`: Publication date
-- `description`: Brief description for previews
-- `tags`: Array of tags for categorization
+You can map custom frontmatter fields to Sanity fields:
 
-## Accessibility Features
-
-- **Skip Links**: Quick navigation for keyboard users
-- **Focus Management**: Clear focus indicators
-- **Screen Reader Support**: Proper ARIA labels and landmarks
-- **Color Contrast**: WCAG AA compliant color ratios
-- **Motion Reduction**: Respects user motion preferences
-- **Form Validation**: Accessible form feedback
-- **Semantic HTML**: Proper heading structure and landmarks
-
-## Customization
-
-### Colors
-
-The site uses CSS custom properties for easy theming. Main colors are defined in `src/styles/global.css`:
-
-```css
-:root {
-  --color-link: #0077cc;
-  --color-link-hover: #b89c4c;
-  --color-dark: #442625;
-  --color-text: #442625;
-  /* ... more colors */
-}
+```javascript
+await migrateMarkdownToSanity({
+  // ... other options
+  fieldMapping: {
+    'author': 'authorName',
+    'category': 'postCategory',
+    'seoTitle': 'metaTitle'
+  }
+});
 ```
 
-### Typography
+## Sanity Schema
 
-The site uses Arvo font family. Font sizes are responsive using CSS clamp:
+Make sure your Sanity schema includes the necessary fields. Here's an example:
 
-```css
---s0: clamp(1rem, 1rem + 0vw, 1rem);
---s1: clamp(1.25rem, 1.19rem + 0.32vw, 1.41rem);
+```javascript
+// sanity.config.ts
+export default defineConfig({
+  // ... other config
+  schema: {
+    types: [
+      {
+        type: "document",
+        name: "story",
+        title: "Story",
+        fields: [
+          { name: "title", title: "Title", type: "string" },
+          { name: "slug", title: "Slug", type: "slug", options: { source: "title" } },
+          { name: "description", title: "Description", type: "text" },
+          { name: "date", title: "Date", type: "datetime" },
+          { name: "draft", title: "Draft", type: "boolean", initialValue: true },
+          { name: "tags", title: "Tags", type: "array", of: [{ type: "string" }] },
+          { name: "featured", title: "Featured", type: "boolean", initialValue: false },
+          { name: "content", title: "Content", type: "text", rows: 20 },
+        ],
+      },
+    ],
+  },
+});
 ```
 
-## Deployment
+## API Token
 
-The site is configured for deployment on Netlify:
+You'll need to create a Sanity API token with write permissions:
 
-1. Connect your repository to Netlify
-2. Set build command: `npm run build`
-3. Set publish directory: `dist`
-4. Deploy!
+1. Go to [manage.sanity.io](https://manage.sanity.io)
+2. Select your project
+3. Go to API section
+4. Create a new token with "Editor" permissions
+
+## License
+
+MIT
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
+2. Create a feature branch
 3. Make your changes
-4. Test thoroughly, especially accessibility
-5. Commit your changes: `git commit -am 'Add feature'`
-6. Push to the branch: `git push origin feature-name`
-7. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-- **Website**: [mostlytrue.blog](https://mostlytrue.blog)
-- **Guestbook**: Leave a message on the [guestbook page](https://mostlytrue.blog/guestbook)
-
----
-
-_Built with ❤️ and Astro_
-
-```sh
-npm create astro@latest -- --template minimal
-```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+4. Add tests if applicable
+5. Submit a pull request

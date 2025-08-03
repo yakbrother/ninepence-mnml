@@ -1,44 +1,50 @@
 ---
-import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { markdownToHtml } from '../../utils/markdown';
 
 export async function getStaticPaths() {
-  const stories = await getCollection('stories');
-  const tagSet = new Set<string>();
-  stories.forEach(story => {
-    if (Array.isArray(story.data.tags)) {
-      (story.data.tags as string[]).forEach((tag: string) => tagSet.add(tag));
-    }
-  });
-  return stories.map(story => {
-    // Extract just the directory name from the story ID
-    const slug = story.id.split('/')[0];
-    return { 
-      params: { slug },
-      props: { story }
-    };
-  });
+  try {
+    const stories = await sanityClient.fetch(`*[_type == "story"]`);
+    return stories.map(story => {
+      return {
+        params: { slug: story.slug.current },
+        props: { story }
+      };
+    });
+  } catch (error) {
+    console.error('Error generating static paths:', error);
+    return [];
+  }
 }
 
-const { story } = Astro.props;
-const { Content } = await render(story);
+const { slug } = Astro.params;
+
+try {
+  const story = await sanityClient.fetch(`*[_type == "story" && slug.current == $slug][0]`, { slug });
+
+  if (!story) {
+    return new Response('Not found', { status: 404 });
+  }
+
+  // Process markdown content
+  const processedContent = markdownToHtml(story.content);
 ---
-<BaseLayout 
-  title={`${story.data.title.toLowerCase()} | mostly true`}
-  description={story.data.description}
+
+<BaseLayout
+  title={`${story.title.toLowerCase()} | mostly true`}
+  description={story.description}
 >
   <article class="stack">
-    <h1>{story.data.title.toLowerCase()}</h1>
+    <h1>{story.title.toLowerCase()}</h1>
     <hr/>
-    <div class="post-date">{new Date(story.data.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton</div>
-    <div class="stack">
-      <Content />
-    </div>
-    {Array.isArray(story.data.tags) && story.data.tags.length > 0 && (
+    <div class="post-date">{new Date(story.date).toLocaleString('en-GB', { month: 'short', year: 'numeric', day: 'numeric' }).toLowerCase()} - virgil eaton</div>
+    <Fragment set:html={processedContent} />
+    {Array.isArray(story.tags) && story.tags.length > 0 && (
       <nav class="tag-list" aria-labelledby="tags-heading" style="margin-top:2em;">
         <h2 id="tags-heading" class="visually-hidden">Story tags</h2>
         <ul class="tag-list-items">
-          {story.data.tags.map((tag: string) => (
+          {story.tags.map((tag: string) => (
             <li><a href={`/tags/${encodeURIComponent(tag)}/`} class="tag">{tag.toLowerCase()}</a></li>
           ))}
         </ul>

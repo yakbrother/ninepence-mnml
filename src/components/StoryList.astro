@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { sanityClient } from 'sanity:client';
 
 export interface Props {
   stories?: any[];
@@ -11,21 +11,21 @@ const { stories, currentStory } = Astro.props;
 // If no stories are passed, fetch all stories and sort them by date
 let displayStories = stories || [];
 if (!stories || stories.length === 0) {
-  const allStories = await getCollection('stories');
-      displayStories = allStories.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+  const allStories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
+  displayStories = allStories;
 }
 ---
 
 <aside>
 {displayStories.map(story => (
-  <article class={`post ${story.id.split('/')[0] === currentStory ? 'current-story-card' : ''}`}>
+  <article class={`post ${story.slug.current === currentStory ? 'current-story-card' : ''}`}>
     <header>
-      <time class="post-date" datetime={new Date(story.data.date).toISOString()}>{new Date(story.data.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</time>
+      <time class="post-date" datetime={new Date(story.date).toISOString()}>{new Date(story.date).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase()}</time>
       <h3 class="post-title">
-        <a href={`/stories/${story.id.split('/')[0]}/`}>{story.data.title.toLowerCase()}</a>
+        <a href={`/stories/${story.slug.current}/`}>{story.title.toLowerCase()}</a>
       </h3>
     </header>
-    <div class="post-summary">{story.data.description}</div>
+    <div class="post-summary">{story.description}</div>
   </article>
 ))} 
 </aside>
