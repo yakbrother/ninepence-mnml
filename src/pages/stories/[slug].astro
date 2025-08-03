@@ -19,16 +19,22 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
+let story = null;
+let processedContent = '';
 
 try {
-  const story = await sanityClient.fetch(`*[_type == "story" && slug.current == $slug][0]`, { slug });
+  story = await sanityClient.fetch(`*[_type == "story" && slug.current == $slug][0]`, { slug });
 
   if (!story) {
     return new Response('Not found', { status: 404 });
   }
 
   // Process markdown content
-  const processedContent = markdownToHtml(story.content);
+  processedContent = markdownToHtml(story.content);
+} catch (error) {
+  console.error('Error fetching story:', error);
+  return new Response('Error loading story', { status: 500 });
+}
 ---
 
 <BaseLayout
