@@ -29,5 +29,38 @@ export default defineConfig({
     optimizeDeps: {
       include: ["styled-components"],
     },
+    build: {
+      chunkSizeWarningLimit: 2000,
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            // Separate Sanity Studio components
+            if (id.includes('@sanity/astro') || id.includes('@sanity/vision')) {
+              return 'sanity-studio';
+            }
+            // Separate React components
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            // Separate styled-components
+            if (id.includes('styled-components')) {
+              return 'styled-components';
+            }
+            // Separate DOMPurify
+            if (id.includes('dompurify')) {
+              return 'dompurify';
+            }
+            // Separate video player (large component)
+            if (id.includes('VideoPlayer')) {
+              return 'video-player';
+            }
+            // Default vendor chunk for other node_modules
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          },
+        },
+      },
+    },
   },
 });

@@ -1,196 +1,59 @@
-# Sanity Migrate Markdown
+# mostly true | virgil eaton
 
-A Node.js package to migrate markdown files with frontmatter to Sanity CMS. Supports both directory-based and flat file structures.
+A personal blog built with Astro and Sanity CMS, featuring stories about busking around the world, dancing through the streets, life in a wheelchair, camping, wild animals, and more.
 
 ## Features
 
-- ✅ Migrate markdown files with frontmatter to Sanity CMS
-- ✅ Support for both `.md` and `.mdx` files
-- ✅ Directory-based structure (e.g., `content/story/index.md`)
-- ✅ Flat file structure (e.g., `content/story.md`)
-- ✅ Custom field mapping
-- ✅ Dry run mode for previewing changes
-- ✅ Environment variable support
-- ✅ CLI interface
-- ✅ Programmatic API
+- **Content Management**: Sanity CMS for easy content editing
+- **Static Site Generation**: Fast, SEO-friendly pages
+- **Responsive Design**: Works on all devices
+- **Accessibility**: WCAG compliant with proper focus management
+- **RSS Feed**: Automatic feed generation for subscribers
 
-## Installation
+## Development
+
+### Prerequisites
+
+- Node.js 18+ (see `.nvmrc`)
+- npm or yarn
+
+### Setup
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Create `.env` file with Sanity configuration:
+   ```
+   PUBLIC_SANITY_STUDIO_PROJECT_ID=your-project-id
+   PUBLIC_SANITY_STUDIO_DATASET=production
+   SANITY_TOKEN=your-api-token
+   ```
+4. Run development server: `npm run dev`
+
+### Build
 
 ```bash
-npm install sanity-migrate-markdown
+npm run build
 ```
 
-## Usage
+**Note**: The build may show warnings about large chunks (>2MB). This is expected due to Sanity Studio components and doesn't affect functionality. The large chunks are only loaded when accessing the admin interface at `/admin`.
 
-### CLI
+### Deployment
 
-```bash
-# Basic usage
-npx sanity-migrate-markdown \
-  --project-id "your-project-id" \
-  --dataset "production" \
-  --token "your-api-token" \
-  --content-dir "./content"
+The site is configured for deployment on Netlify with:
+- Server-side rendering for dynamic content
+- Sanity Studio accessible at `/admin`
+- Automatic redirects and environment variable handling
 
-# With custom document type
-npx sanity-migrate-markdown \
-  --project-id "your-project-id" \
-  --dataset "production" \
-  --token "your-api-token" \
-  --content-dir "./content" \
-  --document-type "post"
+## Content Structure
 
-# Dry run to preview changes
-npx sanity-migrate-markdown \
-  --project-id "your-project-id" \
-  --dataset "production" \
-  --token "your-api-token" \
-  --content-dir "./content" \
-  --dry-run
-```
+- **Stories**: Individual blog posts with markdown content
+- **Tags**: Categorized content for easy discovery
+- **RSS Feed**: Automatic syndication at `/rss.xml`
 
-### Programmatic API
+## Technology Stack
 
-```javascript
-import { migrateMarkdownToSanity } from 'sanity-migrate-markdown';
-
-await migrateMarkdownToSanity({
-  projectId: 'your-project-id',
-  dataset: 'production',
-  token: 'your-api-token',
-  contentDir: './content',
-  documentType: 'story',
-  slugField: 'title',
-  fieldMapping: {
-    'customField': 'frontmatterField'
-  },
-  dryRun: false
-});
-```
-
-## Configuration
-
-### Environment Variables
-
-You can set these environment variables instead of passing them as arguments:
-
-- `PUBLIC_SANITY_STUDIO_PROJECT_ID` - Sanity project ID
-- `PUBLIC_SANITY_STUDIO_DATASET` - Sanity dataset name
-- `SANITY_TOKEN` - Sanity API token
-
-### Options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `projectId` | string | - | Sanity project ID |
-| `dataset` | string | - | Sanity dataset name |
-| `token` | string | - | Sanity API token |
-| `contentDir` | string | - | Directory containing markdown files |
-| `documentType` | string | `"story"` | Sanity document type |
-| `slugField` | string | `"title"` | Field to use for slug generation |
-| `fieldMapping` | object | `{}` | Custom field mapping |
-| `dryRun` | boolean | `false` | Preview changes without creating documents |
-
-## File Structure Support
-
-### Directory-based Structure
-
-```
-content/
-├── story-1/
-│   └── index.md
-├── story-2/
-│   └── index.mdx
-└── story-3/
-    └── index.md
-```
-
-### Flat File Structure
-
-```
-content/
-├── story-1.md
-├── story-2.mdx
-└── story-3.md
-```
-
-## Markdown Frontmatter
-
-The package supports common frontmatter fields:
-
-```yaml
----
-title: "My Story"
-description: "A brief description"
-date: "2024-01-01"
-draft: false
-tags: ["tag1", "tag2"]
-featured: true
----
-```
-
-## Custom Field Mapping
-
-You can map custom frontmatter fields to Sanity fields:
-
-```javascript
-await migrateMarkdownToSanity({
-  // ... other options
-  fieldMapping: {
-    'author': 'authorName',
-    'category': 'postCategory',
-    'seoTitle': 'metaTitle'
-  }
-});
-```
-
-## Sanity Schema
-
-Make sure your Sanity schema includes the necessary fields. Here's an example:
-
-```javascript
-// sanity.config.ts
-export default defineConfig({
-  // ... other config
-  schema: {
-    types: [
-      {
-        type: "document",
-        name: "story",
-        title: "Story",
-        fields: [
-          { name: "title", title: "Title", type: "string" },
-          { name: "slug", title: "Slug", type: "slug", options: { source: "title" } },
-          { name: "description", title: "Description", type: "text" },
-          { name: "date", title: "Date", type: "datetime" },
-          { name: "draft", title: "Draft", type: "boolean", initialValue: true },
-          { name: "tags", title: "Tags", type: "array", of: [{ type: "string" }] },
-          { name: "featured", title: "Featured", type: "boolean", initialValue: false },
-          { name: "content", title: "Content", type: "text", rows: 20 },
-        ],
-      },
-    ],
-  },
-});
-```
-
-## API Token
-
-You'll need to create a Sanity API token with write permissions:
-
-1. Go to [manage.sanity.io](https://manage.sanity.io)
-2. Select your project
-3. Go to API section
-4. Create a new token with "Editor" permissions
-
-## License
-
-MIT
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- **Framework**: Astro 5.x
+- **CMS**: Sanity 4.x
+- **Styling**: Custom CSS with CSS custom properties
+- **Deployment**: Netlify
+- **Node.js**: 18+ (specified in `package.json` engines)
