@@ -40,6 +40,7 @@ npm run build
 ### Deployment
 
 The site is configured for deployment on Netlify with:
+
 - Server-side rendering for dynamic content
 - Sanity Studio accessible at `/admin`
 - Automatic redirects and environment variable handling
