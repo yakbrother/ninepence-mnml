@@ -6,6 +6,10 @@ import type { APIContext } from "astro";
 function markdownToHtml(markdown: string): string {
   return (
     markdown
+      // Convert markdown headers to HTML headers
+      .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+      .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+      .replace(/^# (.*$)/gim, "<h1>$1</h1>")
       // Convert **bold** to <strong>
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       // Convert *italic* to <em>
@@ -14,6 +18,11 @@ function markdownToHtml(markdown: string): string {
       .replace(/_(.*?)_/g, "<em>$1</em>")
       // Convert [link text](url) to <a href="url">link text</a>
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+      // Convert iframe elements to clickable links
+      .replace(
+        /<iframe[^>]*src="([^"]*)"[^>]*title="([^"]*)"[^>]*>.*?<\/iframe>/g,
+        '<a href="$1">$2</a>',
+      )
       // Convert line breaks to <br>
       .replace(/\n\n/g, "</p><p>")
       .replace(/\n/g, "<br>")
@@ -25,6 +34,34 @@ function markdownToHtml(markdown: string): string {
   );
 }
 
+// Generate video links HTML from videos metadata
+function generateVideoLinks(
+  videos?: Array<{
+    platform: string;
+    id: string;
+    title: string;
+    description: string;
+  }>,
+): string {
+  if (!videos || videos.length === 0) return "";
+
+  const videoLinks = videos
+    .map((video) => {
+      const url =
+        video.platform === "youtube"
+          ? `https://www.youtube.com/watch?v=${video.id}`
+          : `https://${video.platform}.com/watch?v=${video.id}`;
+
+      return `<p><strong>${video.title}</strong>: <a href="${url}">${video.description}</a></p>`;
+    })
+    .join("");
+
+  return `<div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007acc;">
+    <h3>Videos in this post:</h3>
+    ${videoLinks}
+  </div>`;
+}
+
 export async function GET(context: APIContext) {
   const stories = await getCollection("stories", ({ data }) => !data.draft);
 
@@ -32,12 +69,15 @@ export async function GET(context: APIContext) {
     (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
   );
 
-  // Convert markdown content to HTML for RSS
+  // Convert markdown content to HTML for RSS and add video links
   const itemsWithContent = items.map((item) => {
     const contentHtml = markdownToHtml(item.body);
+    const videoLinksHtml = generateVideoLinks(item.data.videos);
+    const fullContent = contentHtml + videoLinksHtml;
+
     return {
       ...item,
-      content: contentHtml,
+      content: fullContent,
     };
   });
 

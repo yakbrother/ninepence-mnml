@@ -362,6 +362,7 @@ h2 {
 .h3,
 h3 {
   font-size: var(--s2);
+  text-transform: lowercase;
 }
 
 .h4,
