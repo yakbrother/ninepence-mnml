@@ -27,6 +27,30 @@ const { Content } = await render(story);
   title={`${story.data.title.toLowerCase()} | mostly true`}
   description={story.data.description}
 >
+  <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": story.data.title,
+      "description": story.data.description,
+      "datePublished": story.data.date,
+      "dateModified": story.data.date,
+      "author": {
+        "@type": "Person",
+        "name": "Virgil Eaton"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Mostly True",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mostlytrue.life/assets/og_default.jpg"
+        }
+      },
+      ...(story.data.tags ? {"keywords": story.data.tags.join(", ")} : {}),
+      ...(story.data.image ? {"image": story.data.image} : {"image": "https://mostlytrue.life/assets/og_default.jpg"})
+    })}
+  </script>
   <article class="stack">
     <h1>{story.data.title.toLowerCase()}</h1>
     <hr/>
