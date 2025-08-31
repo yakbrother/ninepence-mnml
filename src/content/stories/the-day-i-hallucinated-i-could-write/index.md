@@ -10,7 +10,7 @@ The first six weeks in the hospital were largely hallucinations - either from th
 
 It veered into reality sometimes, and I would try to communicate. This, I just found, is from my notes at the time. I was trying to tell a story that happened to me and Julie.
 
-Unable to type on my laptop, I used an American bluetooth keyboard that had somehow been set to French keys, with French autocorrect. Imagine the Zs are Ws and the Qs are As, and you can almost begin to make out some words...
+Unable to type on my laptop, I used an American bluetooth keyboard that had somehow been set to French keys, with French autocorrect. Imagine the Zs are Ws, the Qs are As, and the commas are Ms, and you can almost begin to make out some words...
 
 This is exactly as I typed it back then.
 
