@@ -1,11 +1,11 @@
 ---
 title: "Reframing My Story"
-description: "Thinking through my life in terms of disability."
+description: "Thinking through my life in terms of disability. Each experience trained me for what my body would deal with eventually."
 date: "2025-09-03"
 tags: ["disability", "wheelchair"]
 ---
 
-Strangely, it never occurred to me to feel "Why me?" Perhaps this is my natural existentialism that tends to think every occurrence in life has equal odds. You will either die today or you won't. I'll spend tonight partying with Rihanna or I won't. 50/50 odds.
+Strangely, it never occurred to me, after losing my leg, to feel "Why me?" Perhaps this is my natural existentialism that tends to think every occurrence in life has equal odds. You will either die today or you won't. I'll spend tonight partying with Rihanna or I won't. 50/50 odds.
 
 I realize that isn't how probabilities work. I'm well-grounded in statistical mathematics and use large data sets every day as a programmer. It's more of a philosophy for accepting a bizarre world with all its twists and turns and pleasures.
 
