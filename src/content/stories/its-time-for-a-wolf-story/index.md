@@ -6,13 +6,13 @@ tags: ["wolves", "wildlife", "animals", "new mexico", "usa"]
 featured: false
 ---
 
-When I was 25, I quit my cushy job in Philadelphia and, with $120 in my pocket and a banjo tied to my backpack, I set out to work at a wolf sanctuary in New Mexico. The two years I spent in the middle of nowhere, next to Navajo and Zuni land, were a profound influence on my life.
+When I was 25, I quit my cushy job in Philadelphia. With $120 in my pocket and a banjo tied to my backpack, I set out to work at a wolf sanctuary in New Mexico. The two years I spent in the middle of nowhere, next to Navajo and Zuni land, were a profound influence on my life.
 
-All the wolves there were rescued wolves or wolf dog hybrids - and the odd fox or dingo - because people continue to buy them or breed them in places where they are illegal. Some came from rich owners. Some were to be put down but we interceded. We took care of them, educated school kids about wolves, and fed them barrels of meat. (The wolves, not the kids.)
+All the wolves there were rescued wolves or wolf dog hybrids (and the odd fox or dingo) because people continue to buy them or breed them in places where they are illegal. Some came from rich owners. Some were to be put down but we interceded. We took care of them, educated school kids about wolves, and fed them barrels of meat. (The wolves, not the kids.)
 
 The volunteers lived simply, without running water, in fire-heated cabins or hogans. We had a $25/week stipend, along with whatever we could make in construction on the side for neighbors. I think I made only $3,000 each year, but it was fun and toughened all of us up.
 
-One particularly aggressive resident was named Luna - mostly arctic wolf, a bit dog. Enough wolf to be aggressive and enough dog to not be scared of humans. This tended to be a dangerous mix. None of the volunteers were allowed to go inside and pet her - we had to coax her into a secondary cage while we performed cleanup and repairs.
+One particularly aggressive resident was named Luna - mostly arctic wolf, a bit dog. Enough wolf to be aggressive and enough dog to not be scared of humans. This tended to be a dangerous mix. None of the volunteers were allowed to go inside and pet her - we had to coax her into a secondary cage while we performed cleanup and repairs.
 
 Now, on this day, Luna was all set to move into a bigger enclosure. It wasn't far away, so we built a simple pathway fence to guide her the right way. We had posts driven into the ground, but the fencing was temporary.
 
@@ -24,7 +24,7 @@ Now I should pause, because there's a certain way to catch a wolf that we had al
 
 You need a large, strong dog cage, a net on a pole, and two y-shaped poles, one a little wider than the other. This sounds scary, but it's the safest way to catch a large, scared animal, at least without jeeps and net shooters a la Jurassic Park.
 
-One person waits sitting on top of the dog cage, holding the door open. One person places the smaller Y pole on the wolf's neck, and one (me in this case) places the larger Y pole over the lower back. Neither pin the animal - but it instinctively submits and calms down. The last person nets the head, to protect everyone from thesnapping teeth. We then guide her into the cage and give her a sedative.
+One person waits sitting on top of the dog cage, holding the door open. One person places the smaller Y pole on the wolf's neck, and one (me in this case) places the larger Y pole over the lower back. Neither pin the animal - but it instinctively submits and calms down. The last person nets the head, to protect everyone from thesnapping teeth. We then guide her into the cage and give her a sedative.
 
 At least, that was the method I was taught back in 2008. Since then, I know there have been a lot more studies of wolf behavior, so perhaps it's different now.
 
