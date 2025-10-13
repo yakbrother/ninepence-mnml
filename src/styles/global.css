@@ -1,7 +1,6 @@
 @font-face {
   font-family: "Arvo";
-  src:
-    url("/fonts/arvo-regular.woff2") format("woff2"),
+  src: url("/fonts/arvo-regular.woff2") format("woff2"),
     url("/fonts/arvo-regular.woff") format("woff"),
     url("/fonts/arvo-regular.ttf") format("truetype");
   font-weight: 400;
@@ -11,8 +10,7 @@
 
 @font-face {
   font-family: "Arvo";
-  src:
-    url("/fonts/arvo-bold.woff2") format("woff2"),
+  src: url("/fonts/arvo-bold.woff2") format("woff2"),
     url("/fonts/arvo-bold.woff") format("woff"),
     url("/fonts/arvo-bold.ttf") format("truetype");
   font-weight: 700;
@@ -204,6 +202,7 @@ h3,
 h4 {
   line-height: var(--line-height-small);
   font-weight: 700;
+  text-wrap: balance;
   color: var(--color-text);
 }
 
@@ -285,9 +284,7 @@ article h6 {
 article a {
   color: var(--color-link);
   text-decoration: underline dotted;
-  transition:
-    color 0.3s ease-in-out,
-    text-decoration-color 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, text-decoration-color 0.3s ease-in-out;
 }
 
 article a:hover {
