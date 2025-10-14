@@ -157,6 +157,7 @@ select:focus {
 }
 
 article {
+  max-width: 100%;
   line-height: var(--line-height);
 }
 
@@ -207,7 +208,6 @@ h4 {
   color: var(--color-text);
 }
 
-.h1,
 h1 {
   font-size: var(--s3);
 }
@@ -217,19 +217,16 @@ h1 > a {
   color: inherit;
 }
 
-.h2,
 h2 {
   font-size: 2.83rem;
   font-size: var(--s3);
 }
 
-.h3,
 h3 {
   font-size: 2rem;
   font-size: var(--s2);
 }
 
-.h4,
 h4 {
   font-size: 1.41rem;
   font-size: var(--s1);
@@ -260,10 +257,6 @@ a:hover {
   text-decoration: underline dotted;
   text-decoration-color: var(--color-link-hover);
   color: var(--color-link-hover);
-}
-
-article {
-  max-width: 100%;
 }
 
 article img {
@@ -335,7 +328,6 @@ figcaption {
 main {
   line-height: 1.5;
 }
-
 
 .h1,
 h1 {
