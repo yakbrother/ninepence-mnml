@@ -1,7 +1,7 @@
 ---
 title: "The Day I Left for New Mexico"
 description: "How I started my adventures with wolves…"
-date: "2025-10-05"
+date: "2025-11-13"
 tags: ["wolves", "new mexico", "pennsylvania", "usa", "travel", "wildlife"]
 featured: false
 ---
