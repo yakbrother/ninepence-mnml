@@ -3,6 +3,13 @@ import { SITE } from "../consts";
 import type { APIContext } from "astro";
 import { markdownToHtmlForRss, escapeRssTitle } from "../utils/markdown";
 
+interface Video {
+  platform: string;
+  id: string;
+  title: string;
+  description: string;
+}
+
 // Define the story type based on the Sanity schema
 interface Story {
   _id: string;
@@ -14,6 +21,35 @@ interface Story {
   description?: string;
   draft?: boolean;
   tags?: string[];
+  videos?: Video[];
+}
+
+// Generate video links HTML from videos metadata
+function generateVideoLinks(
+  videos?: Array<{
+    platform: string;
+    id: string;
+    title: string;
+    description: string;
+  }>,
+): string {
+  if (!videos || videos.length === 0) return "";
+
+  const videoLinks = videos
+    .map((video) => {
+      const url =
+        video.platform === "youtube"
+          ? `https://www.youtube.com/watch?v=${video.id}`
+          : `https://${video.platform}.com/watch?v=${video.id}`;
+
+      return `<p><strong>${video.title}</strong>: <a href="${url}">${video.description}</a></p>`;
+    })
+    .join("");
+
+  return `<div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007acc;">
+    <h3>Videos in this post:</h3>
+    ${videoLinks}
+  </div>`;
 }
 
 export async function GET(context: APIContext) {
@@ -22,12 +58,13 @@ export async function GET(context: APIContext) {
       `*[_type == "story" && !draft] | order(date desc)`,
     );
 
-    // Convert markdown content to HTML for RSS
+    // Convert markdown content to HTML for RSS and add video links
     const itemsWithContent = stories.map((story: Story) => {
       const contentHtml = markdownToHtmlForRss(story.content || "");
+      const videoLinksHtml = generateVideoLinks(story.videos);
       return {
         ...story,
-        content: contentHtml,
+        content: contentHtml + videoLinksHtml,
       };
     });
 

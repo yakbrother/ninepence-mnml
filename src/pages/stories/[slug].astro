@@ -41,6 +41,30 @@ try {
   title={`${story.title.toLowerCase()} | mostly true`}
   description={story.description}
 >
+  <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": story.title,
+      "description": story.description,
+      "datePublished": story.date,
+      "dateModified": story.date,
+      "author": {
+        "@type": "Person",
+        "name": "Virgil Eaton"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Mostly True",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mostlytrue.life/assets/og_default.jpg"
+        }
+      },
+      ...(story.tags ? {"keywords": story.tags.join(", ")} : {}),
+      ...(story.image ? {"image": story.image} : {"image": "https://mostlytrue.life/assets/og_default.jpg"})
+    })}
+  </script>
   <article class="stack">
     <h1>{story.title.toLowerCase()}</h1>
     <hr/>

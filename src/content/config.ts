@@ -9,6 +9,16 @@ const stories = defineCollection({
     draft: z.boolean().optional(),
     tags: z.array(z.string()).optional(),
     featured: z.boolean().optional(),
+    videos: z
+      .array(
+        z.object({
+          platform: z.string(),
+          id: z.string(),
+          title: z.string(),
+          description: z.string(),
+        }),
+      )
+      .optional(),
   }),
 });
 

@@ -58,6 +58,22 @@ export default defineConfig({
             initialValue: false,
           },
           {
+            name: "videos",
+            title: "Videos",
+            type: "array",
+            of: [
+              {
+                type: "object",
+                fields: [
+                  { name: "platform", title: "Platform", type: "string" },
+                  { name: "id", title: "Video ID", type: "string" },
+                  { name: "title", title: "Title", type: "string" },
+                  { name: "description", title: "Description", type: "string" },
+                ],
+              },
+            ],
+          },
+          {
             name: "content",
             title: "Content",
             type: "text",
