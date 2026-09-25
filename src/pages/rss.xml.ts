@@ -1,14 +1,13 @@
 import { sanityClient } from "sanity:client";
 import { SITE } from "../consts";
 import type { APIContext } from "astro";
-import { markdownToHtmlForRss, escapeRssTitle } from "../utils/markdown";
-
-interface Video {
-  platform: string;
-  id: string;
-  title: string;
-  description: string;
-}
+import {
+  markdownToHtmlForRss,
+  escapeRssTitle,
+  generateVideoLinks,
+  cdataSafe,
+  type Video,
+} from "../utils/markdown";
 
 // Define the story type based on the Sanity schema
 interface Story {
@@ -24,34 +23,6 @@ interface Story {
   videos?: Video[];
 }
 
-// Generate video links HTML from videos metadata
-function generateVideoLinks(
-  videos?: Array<{
-    platform: string;
-    id: string;
-    title: string;
-    description: string;
-  }>,
-): string {
-  if (!videos || videos.length === 0) return "";
-
-  const videoLinks = videos
-    .map((video) => {
-      const url =
-        video.platform === "youtube"
-          ? `https://www.youtube.com/watch?v=${video.id}`
-          : `https://${video.platform}.com/watch?v=${video.id}`;
-
-      return `<p><strong>${video.title}</strong>: <a href="${url}">${video.description}</a></p>`;
-    })
-    .join("");
-
-  return `<div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007acc;">
-    <h3>Videos in this post:</h3>
-    ${videoLinks}
-  </div>`;
-}
-
 export async function GET(context: APIContext) {
   try {
     const stories = await sanityClient.fetch(
@@ -64,7 +35,7 @@ export async function GET(context: APIContext) {
       const videoLinksHtml = generateVideoLinks(story.videos);
       return {
         ...story,
-        content: contentHtml + videoLinksHtml,
+        content: contentHtml + cdataSafe(videoLinksHtml),
       };
     });
 
@@ -82,7 +53,7 @@ export async function GET(context: APIContext) {
     <item>
       <title>${escapeRssTitle(item.title)}</title>
       <description><![CDATA[${item.content}]]></description>
-      <link>${SITE.WEBSITE_URL}/stories/${item.slug.current}/</link>
+      <link>${SITE.WEBSITE_URL}/stories/${encodeURIComponent(item.slug.current)}/</link>
       <pubDate>${new Date(item.date).toUTCString()}</pubDate>
     </item>`,
       )

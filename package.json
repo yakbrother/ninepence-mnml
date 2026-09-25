@@ -3,13 +3,14 @@
   "type": "module",
   "version": "1.0.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test src/utils/*.test.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.7",
@@ -18,9 +19,7 @@
     "@sanity/astro": "^3.2.0",
     "@sanity/client": "^7.8.1",
     "@sanity/vision": "^4.2.0",
-    "@types/dompurify": "^3.0.5",
     "astro": "^5.16.0",
-    "dompurify": "^3.2.6",
     "gray-matter": "^4.0.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

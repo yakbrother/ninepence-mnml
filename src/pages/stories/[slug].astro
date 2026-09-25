@@ -1,7 +1,7 @@
 ---
 import { sanityClient } from 'sanity:client';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { markdownToHtml } from '../../utils/markdown';
+import { markdownToHtml, jsonLd } from '../../utils/markdown';
 
 export async function getStaticPaths() {
   try {
@@ -41,8 +41,7 @@ try {
   title={`${story.title.toLowerCase()} | mostly true`}
   description={story.description}
 >
-  <script type="application/ld+json" is:inline>
-    {JSON.stringify({
+  <script type="application/ld+json" is:inline set:html={jsonLd({
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": story.title,
@@ -63,8 +62,7 @@ try {
       },
       ...(story.tags ? {"keywords": story.tags.join(", ")} : {}),
       ...(story.image ? {"image": story.image} : {"image": "https://mostlytrue.life/assets/og_default.jpg"})
-    })}
-  </script>
+    })} />
   <article class="stack">
     <h1>{story.title.toLowerCase()}</h1>
     <hr/>

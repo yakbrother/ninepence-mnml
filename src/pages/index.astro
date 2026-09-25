@@ -11,7 +11,7 @@ let processedContent = '';
 
 try {
   stories = await sanityClient.fetch(`*[_type == "story" && !draft] | order(date desc)`);
-  [newest, ...others] = stories;
+  newest = stories[0] ?? null;
 
   // Process markdown content if newest story exists
   if (newest) {
