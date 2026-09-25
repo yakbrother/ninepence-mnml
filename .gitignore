@@ -23,6 +23,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# Local Netlify folder
+.netlify
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md

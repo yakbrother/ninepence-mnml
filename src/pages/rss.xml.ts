@@ -1,88 +1,46 @@
-import { getCollection } from "astro:content";
+import { sanityClient } from "sanity:client";
 import { SITE } from "../consts";
 import type { APIContext } from "astro";
+import {
+  markdownToHtmlForRss,
+  escapeRssTitle,
+  generateVideoLinks,
+  cdataSafe,
+  type Video,
+} from "../utils/markdown";
 
-// Simple markdown to HTML converter for basic formatting
-function markdownToHtml(markdown: string): string {
-  return (
-    markdown
-      // Convert markdown headers to HTML headers
-      .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-      .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-      .replace(/^# (.*$)/gim, "<h1>$1</h1>")
-      // Convert **bold** to <strong>
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      // Convert *italic* to <em>
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      // Convert _italic_ to <em>
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      // Convert [link text](url) to <a href="url">link text</a>
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      // Convert iframe elements to clickable links
-      .replace(
-        /<iframe[^>]*src="([^"]*)"[^>]*title="([^"]*)"[^>]*>.*?<\/iframe>/g,
-        '<a href="$1">$2</a>',
-      )
-      // Convert line breaks to <br>
-      .replace(/\n\n/g, "</p><p>")
-      .replace(/\n/g, "<br>")
-      // Wrap in paragraphs
-      .replace(/^(.+)$/s, "<p>$1</p>")
-      // Clean up empty paragraphs
-      .replace(/<p><\/p>/g, "")
-      .replace(/<p><br><\/p>/g, "")
-  );
-}
-
-// Generate video links HTML from videos metadata
-function generateVideoLinks(
-  videos?: Array<{
-    platform: string;
-    id: string;
-    title: string;
-    description: string;
-  }>,
-): string {
-  if (!videos || videos.length === 0) return "";
-
-  const videoLinks = videos
-    .map((video) => {
-      const url =
-        video.platform === "youtube"
-          ? `https://www.youtube.com/watch?v=${video.id}`
-          : `https://${video.platform}.com/watch?v=${video.id}`;
-
-      return `<p><strong>${video.title}</strong>: <a href="${url}">${video.description}</a></p>`;
-    })
-    .join("");
-
-  return `<div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007acc;">
-    <h3>Videos in this post:</h3>
-    ${videoLinks}
-  </div>`;
+// Define the story type based on the Sanity schema
+interface Story {
+  _id: string;
+  _type: string;
+  title: string;
+  slug: { current: string };
+  content: string;
+  date: string;
+  description?: string;
+  draft?: boolean;
+  tags?: string[];
+  videos?: Video[];
 }
 
 export async function GET(context: APIContext) {
-  const stories = await getCollection("stories", ({ data }) => !data.draft);
+  try {
+    const stories = await sanityClient.fetch(
+      `*[_type == "story" && !draft] | order(date desc)`,
+    );
 
-  const items = stories.sort(
-    (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
-  );
+    // Convert markdown content to HTML for RSS and add video links
+    const itemsWithContent = stories.map((story: Story) => {
+      const contentHtml = markdownToHtmlForRss(story.content || "");
+      const videoLinksHtml = generateVideoLinks(story.videos);
+      return {
+        ...story,
+        content: contentHtml + cdataSafe(videoLinksHtml),
+      };
+    });
 
-  // Convert markdown content to HTML for RSS and add video links
-  const itemsWithContent = items.map((item) => {
-    const contentHtml = markdownToHtml(item.body);
-    const videoLinksHtml = generateVideoLinks(item.data.videos);
-    const fullContent = contentHtml + videoLinksHtml;
-
-    return {
-      ...item,
-      content: fullContent,
-    };
-  });
-
-  return new Response(
-    `<?xml version="1.0" encoding="UTF-8"?>
+    return new Response(
+      `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
     <title>${SITE.TITLE}</title>
@@ -91,21 +49,25 @@ export async function GET(context: APIContext) {
     <language>en</language>
     ${itemsWithContent
       .map(
-        (item) => `
+        (item: Story & { content: string }) => `
     <item>
-      <title>${item.data.title}</title>
+      <title>${escapeRssTitle(item.title)}</title>
       <description><![CDATA[${item.content}]]></description>
-      <link>${SITE.WEBSITE_URL}/stories/${item.slug}/</link>
-      <pubDate>${new Date(item.data.date).toUTCString()}</pubDate>
+      <link>${SITE.WEBSITE_URL}/stories/${encodeURIComponent(item.slug.current)}/</link>
+      <pubDate>${new Date(item.date).toUTCString()}</pubDate>
     </item>`,
       )
       .join("")}
   </channel>
 </rss>`,
-    {
-      headers: {
-        "Content-Type": "application/xml",
+      {
+        headers: {
+          "Content-Type": "application/xml",
+        },
       },
-    },
-  );
+    );
+  } catch (error) {
+    console.error("Error generating RSS feed:", error);
+    return new Response("Error generating RSS feed", { status: 500 });
+  }
 }
